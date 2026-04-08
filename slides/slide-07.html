@@ -1,0 +1,39 @@
+<!-- Slide 7: Text -->
+<section class="slide" id="slide-7">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Widget: Text</h2>
+            <p>Unlike Entry, the Text widget supports multi-line text input.</p>
+            <h3>Usage Details:</h3>
+            <ul>
+                <li>Indexes use strings like <code>"1.0"</code> (Line 1, Char 0) or <code>tk.END</code>.</li>
+                <li><code>state="disabled"</code> makes it read-only.</li>
+                <li>Often paired with a <code>Scrollbar</code> widget.</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <textarea id="textDemo" rows="5" cols="30" style="width:250px;font-family:sans-serif;border:1px solid #999;padding:5px;">Multi-line text area...</textarea>
+                <br>
+                <button class="tk-btn" onclick="alert(document.getElementById('textDemo').value)">Get Content</button>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+<span class="kw">def</span> <span class="func">get_content</span>():
+    content = text_area.get(<span class="str">"1.0"</span>, tk.END)
+    <span class="kw">print</span>(content)
+
+root = tk.Tk()
+
+text_area = tk.Text(root, height=8, width=40)
+text_area.pack()
+text_area.insert(tk.END, <span class="str">"Type here...
+Line 2"</span>)
+
+btn = tk.Button(root, text=<span class="str">"Show Content"</span>, command=get_content)
+btn.pack()
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,61 @@
+<!-- Slide 25: Calculator -->
+<section class="slide" id="slide-25">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Real-World Demo: Calculator</h2>
+            <p>Building a calculator is a classic exercise to master <code>grid()</code> layout and event handling logic.</p>
+            <p><strong>Logic:</strong> We append numbers to a string expression and use Python's <code>eval()</code> to compute the result.</p>
+            <div class="info-box">
+                <strong>Note on <code>eval()</code>:</strong> In production apps, <code>eval()</code> can be risky. For learning tools it's fine, but in real projects you should parse the string mathematically.
+            </div>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <div class="calc-grid">
+                    <div class="calc-display" id="calcDisplay">0</div>
+                    <button class="calc-btn" onclick="calcInput('7')">7</button>
+                    <button class="calc-btn" onclick="calcInput('8')">8</button>
+                    <button class="calc-btn" onclick="calcInput('9')">9</button>
+                    <button class="calc-btn op" onclick="calcInput('/')">/</button>
+                    <button class="calc-btn" onclick="calcInput('4')">4</button>
+                    <button class="calc-btn" onclick="calcInput('5')">5</button>
+                    <button class="calc-btn" onclick="calcInput('6')">6</button>
+                    <button class="calc-btn op" onclick="calcInput('*')">*</button>
+                    <button class="calc-btn" onclick="calcInput('1')">1</button>
+                    <button class="calc-btn" onclick="calcInput('2')">2</button>
+                    <button class="calc-btn" onclick="calcInput('3')">3</button>
+                    <button class="calc-btn op" onclick="calcInput('-')">-</button>
+                    <button class="calc-btn" onclick="calcClear()">C</button>
+                    <button class="calc-btn" onclick="calcInput('0')">0</button>
+                    <button class="calc-btn eq" onclick="calcEval()">=</button>
+                    <button class="calc-btn op" onclick="calcInput('+')">+</button>
+                </div>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+root.title(<span class="str">"Calculator"</span>)
+
+entry = tk.Entry(root, width=35, borderwidth=5, font=(<span class="str">"Arial"</span>, 18))
+entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+
+<span class="kw">def</span> <span class="func">button_click</span>(n): entry.insert(tk.END, str(n))
+<span class="kw">def</span> <span class="func">button_clear</span>(): entry.delete(0, tk.END)
+<span class="kw">def</span> <span class="func">button_equal</span>():
+    <span class="kw">try</span>:
+        result = eval(entry.get())
+        entry.delete(0, tk.END); entry.insert(0, result)
+    <span class="kw">except</span>: entry.delete(0, tk.END); entry.insert(0, <span class="str">"Error"</span>)
+
+buttons = [<span class="str">'7'</span>,<span class="str">'8'</span>,<span class="str">'9'</span>,<span class="str">'/'</span>,<span class="str">'4'</span>,<span class="str">'5'</span>,<span class="str">'6'</span>,<span class="str">'*'</span>,<span class="str">'1'</span>,<span class="str">'2'</span>,<span class="str">'3'</span>,<span class="str">'-'</span>,<span class="str">'C'</span>,<span class="str">'0'</span>,<span class="str">'='</span>,<span class="str">'+'</span>]
+r, c = 1, 0
+<span class="kw">for</span> t <span class="kw">in</span> buttons:
+    cmd = <span class="kw">lambda</span> x=t: button_equal() <span class="kw">if</span> x==<span class="str">'='</span> <span class="kw">else</span> button_clear() <span class="kw">if</span> x==<span class="str">'C'</span> <span class="kw">else</span> button_click(x)
+    tk.Button(root, text=t, padx=40, pady=20, command=cmd).grid(row=r, column=c)
+    c += 1
+    <span class="kw">if</span> c > 3: c, r = 0, r+1
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

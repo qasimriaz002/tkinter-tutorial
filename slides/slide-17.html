@@ -1,0 +1,46 @@
+<!-- Slide 17: Notebook -->
+<section class="slide" id="slide-17">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Widget: Notebook (Tabs)</h2>
+            <p>The Notebook widget manages a collection of windows/tabs. Excellent for organizing settings or complex forms.</p>
+            <h3>Structure:</h3>
+            <ul>
+                <li>Create <code>ttk.Notebook</code>.</li>
+                <li>Create Frames for each tab content.</li>
+                <li>Add frames using <code>.add(frame, text="Tab Name")</code>.</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <div class="notebook">
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchTab(event,'t1')">Settings</div>
+                        <div class="tab" onclick="switchTab(event,'t2')">Profile</div>
+                        <div class="tab" onclick="switchTab(event,'t3')">Advanced</div>
+                    </div>
+                    <div id="t1" class="tab-content active"><p>Application Settings</p><input type="checkbox"> Dark Mode</div>
+                    <div id="t2" class="tab-content"><p>User Profile</p><input type="text" class="tk-entry" placeholder="Username"></div>
+                    <div id="t3" class="tab-content"><p>Advanced Options</p><button class="tk-btn">Reset Config</button></div>
+                </div>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">from</span> tkinter <span class="kw">import</span> ttk
+<span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+note = ttk.Notebook(root)
+
+tab1 = ttk.Frame(note)
+tab2 = ttk.Frame(note)
+
+ttk.Label(tab1, text=<span class="str">"Settings Page"</span>).pack(padx=20, pady=20)
+ttk.Label(tab2, text=<span class="str">"Profile Page"</span>).pack(padx=20, pady=20)
+
+note.add(tab1, text=<span class="str">"Settings"</span>)
+note.add(tab2, text=<span class="str">"Profile"</span>)
+note.pack(expand=<span class="kw">True</span>, fill=<span class="str">"both"</span>)
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

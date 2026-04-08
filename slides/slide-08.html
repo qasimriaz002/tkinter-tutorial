@@ -1,0 +1,35 @@
+<!-- Slide 8: Frame -->
+<section class="slide" id="slide-8">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Widget: Frame</h2>
+            <p>A Frame is a rectangular region on the screen. It acts as a container to hold and organize other widgets.</p>
+            <h3>Parameters:</h3>
+            <ul>
+                <li><code>bd</code>: Border width.</li>
+                <li><code>relief</code>: Border style (<code>"flat"</code>, <code>"raised"</code>, <code>"sunken"</code>, <code>"groove"</code>, <code>"ridge"</code>).</li>
+                <li><code>bg</code>: Background color.</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <div style="border:2px groove #999;padding:15px;width:200px;background:#eee;">
+                    <div style="text-align:center;font-weight:bold;border-bottom:1px solid #ccc;padding-bottom:5px;margin-bottom:10px;">Frame Container</div>
+                    <button class="tk-btn" style="width:100%;margin-bottom:5px;">Btn 1</button>
+                    <button class="tk-btn" style="width:100%;">Btn 2</button>
+                </div>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+
+frame = tk.Frame(root, bd=2, relief=<span class="str">"groove"</span>, bg=<span class="str">"lightgray"</span>)
+frame.pack(pady=20, padx=20)
+
+tk.Label(frame, text=<span class="str">"Inside Frame"</span>, bg=<span class="str">"lightgray"</span>).pack(pady=5)
+tk.Button(frame, text=<span class="str">"Frame Button"</span>).pack(pady=5)
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

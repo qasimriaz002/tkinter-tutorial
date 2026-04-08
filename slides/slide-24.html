@@ -1,0 +1,40 @@
+<!-- Slide 24: Image Buttons -->
+<section class="slide" id="slide-24">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Image Buttons</h2>
+            <p>Buttons can display images instead of, or alongside, text. This is standard for toolbars.</p>
+            <h3>The <code>compound</code> Parameter:</h3>
+            <ul>
+                <li><code>"left"</code>: Image left, text right.</li>
+                <li><code>"top"</code>: Image above text.</li>
+                <li><code>"center"</code>: Text over image.</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <button class="tk-btn" style="display:flex;align-items:center;gap:5px;padding:5px 15px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    Save File
+                </button>
+                <button class="tk-btn" style="display:flex;align-items:center;gap:5px;padding:5px 15px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    Delete
+                </button>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+icon = tk.PhotoImage(file=<span class="str">"save.png"</span>)
+
+btn = tk.Button(root, image=icon, text=<span class="str">"Save File"</span>,
+    compound=<span class="str">"left"</span>,
+    command=<span class="kw">lambda</span>: <span class="kw">print</span>(<span class="str">"Saving..."</span>))
+
+btn.image = icon  <span class="com"># Prevent garbage collection</span>
+btn.pack(pady=20)
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

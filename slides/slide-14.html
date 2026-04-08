@@ -1,0 +1,34 @@
+<!-- Slide 14: Spinbox -->
+<section class="slide" id="slide-14">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Widget: Spinbox</h2>
+            <p>A Spinbox is an Entry widget with up/down arrows to cycle through a set of values (either a numerical range or a specific list of strings).</p>
+            <h3>Usage:</h3>
+            <ul>
+                <li>Use <code>from_</code> and <code>to</code> for numbers.</li>
+                <li>Use <code>values=(...)</code> tuple for text options.</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <div style="display:flex;align-items:center;border:1px solid #999;background:white;border-radius:4px;width:fit-content;">
+                    <input type="number" value="0" id="spinVal" min="0" max="10" style="width:50px;border:none;text-align:center;padding:4px;">
+                </div>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+
+<span class="com"># Numeric Spinbox</span>
+spin_num = tk.Spinbox(root, from_=0, to=10, increment=1, width=5)
+spin_num.pack(pady=5)
+
+<span class="com"># Text Spinbox</span>
+spin_text = tk.Spinbox(root, values=(<span class="str">"Small"</span>, <span class="str">"Medium"</span>, <span class="str">"Large"</span>), width=10)
+spin_text.pack(pady=5)
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

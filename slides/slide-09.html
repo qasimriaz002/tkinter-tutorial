@@ -1,0 +1,38 @@
+<!-- Slide 9: Canvas -->
+<section class="slide" id="slide-9">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Widget: Canvas</h2>
+            <p>The Canvas widget is used for drawing shapes, plotting graphs, or creating custom animations.</p>
+            <h3>Drawing Methods:</h3>
+            <ul>
+                <li><code>.create_rectangle(x1, y1, x2, y2)</code></li>
+                <li><code>.create_oval(x1, y1, x2, y2)</code></li>
+                <li><code>.create_line(x1, y1, x2, y2)</code></li>
+                <li><code>.create_text(x, y, text="...")</code></li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <canvas id="canvasDemo" width="250" height="150" style="border:1px solid #999;background:white;"></canvas>
+                <br>
+                <button class="tk-btn" onclick="drawCanvas()">Draw Shapes</button>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+<span class="kw">def</span> <span class="func">draw</span>():
+    c.create_rectangle(10, 10, 90, 90, fill=<span class="str">"red"</span>)
+    c.create_oval(110, 10, 190, 90, fill=<span class="str">"blue"</span>)
+    c.create_line(10, 110, 190, 110, fill=<span class="str">"green"</span>, width=5)
+
+root = tk.Tk()
+c = tk.Canvas(root, width=200, height=120, bg=<span class="str">"white"</span>)
+c.pack()
+
+btn = tk.Button(root, text=<span class="str">"Draw"</span>, command=draw)
+btn.pack()
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

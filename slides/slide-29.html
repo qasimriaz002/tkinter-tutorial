@@ -1,0 +1,52 @@
+<!-- Slide 29: Event Handling -->
+<section class="slide" id="slide-29">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Advanced Event Handling</h2>
+            <p>Beyond the simple <code>command</code> attribute, you can bind specific events using <code>.bind()</code>.</p>
+            <h3>Event Syntax:</h3>
+            <ul>
+                <li><code>&lt;Button-1&gt;</code>: Left Mouse Click.</li>
+                <li><code>&lt;Button-3&gt;</code>: Right Mouse Click.</li>
+                <li><code>&lt;Enter&gt;</code>: Mouse Hover enters widget.</li>
+                <li><code>&lt;Leave&gt;</code>: Mouse Hover leaves widget.</li>
+                <li><code>&lt;Key&gt;</code>: Any key press.</li>
+            </ul>
+            <p>The callback function receives an <code>event</code> object containing coordinates (x, y) and key codes.</p>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <div id="eventBox"
+                    onmouseover="this.style.background='var(--tkinter-blue)'"
+                    onmouseout="this.style.background='white'"
+                    onmousedown="this.style.transform='scale(0.95)'"
+                    onmouseup="this.style.transform='scale(1)'"
+                    style="width:150px;height:80px;border:2px solid #999;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:0.2s;user-select:none;">
+                    Hover &amp; Click Me
+                </div>
+                <p style="font-size:0.8rem;">Events: Hover (Color), Click (Scale)</p>
+                <input type="text" class="tk-entry" placeholder="Type here (Key Press Event)" onkeydown="document.getElementById('eventBox').innerText = 'Key: ' + event.key" style="margin-top:10px;">
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+<span class="kw">def</span> <span class="func">on_enter</span>(e): btn.config(bg=<span class="str">"lightblue"</span>)
+<span class="kw">def</span> <span class="func">on_leave</span>(e): btn.config(bg=<span class="str">"SystemButtonFace"</span>)
+<span class="kw">def</span> <span class="func">on_right_click</span>(e): <span class="kw">print</span>(<span class="str">"Right clicked at"</span>, e.x, e.y)
+<span class="kw">def</span> <span class="func">on_key</span>(e): <span class="kw">print</span>(<span class="str">"Key pressed:"</span>, e.char)
+
+root = tk.Tk()
+btn = tk.Button(root, text=<span class="str">"Hover Me"</span>)
+btn.pack(pady=20)
+
+btn.bind(<span class="str">"&lt;Enter&gt;"</span>, on_enter)
+btn.bind(<span class="str">"&lt;Leave&gt;"</span>, on_leave)
+btn.bind(<span class="str">"&lt;Button-3&gt;"</span>, on_right_click)
+
+entry = tk.Entry(root)
+entry.pack()
+entry.bind(<span class="str">"&lt;Key&gt;"</span>, on_key)
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

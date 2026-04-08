@@ -1,0 +1,45 @@
+<!-- Slide 6: Entry -->
+<section class="slide" id="slide-6">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Widget: Entry</h2>
+            <p>The Entry widget allows the user to input a single line of text.</p>
+            <h3>Key Methods:</h3>
+            <ul>
+                <li><code>.get()</code>: Retrieves the current text.</li>
+                <li><code>.delete(0, END)</code>: Clears all text.</li>
+                <li><code>.insert(0, "text")</code>: Inserts text at a specific index.</li>
+                <li><code>show="*"</code>: Used for password fields.</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <input type="text" class="tk-entry" id="entryDemo" placeholder="Enter your name..." style="width:200px;margin-bottom:10px;">
+                <br>
+                <button class="tk-btn" onclick="demoEntry()">Submit</button>
+                <button class="tk-btn" onclick="document.getElementById('entryDemo').value=''">Clear</button>
+                <p id="entryOutput" class="tk-label" style="margin-top:10px;color:var(--accent);"></p>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+<span class="kw">def</span> <span class="func">submit</span>():
+    name = entry.get()
+    <span class="kw">if</span> name:
+        result.config(text=f<span class="str">"Hello, {name}!"</span>)
+        entry.delete(0, tk.END)
+
+root = tk.Tk()
+
+entry = tk.Entry(root, width=30, font=(<span class="str">"Arial"</span>, 12))
+entry.pack(pady=10)
+
+btn = tk.Button(root, text=<span class="str">"Submit"</span>, command=submit)
+btn.pack()
+
+result = tk.Label(root, text=<span class="str">""</span>)
+result.pack()
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

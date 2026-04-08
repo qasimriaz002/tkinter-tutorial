@@ -1,0 +1,36 @@
+<!-- Slide 20: Grid -->
+<section class="slide" id="slide-20">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Geometry: Grid()</h2>
+            <p>Grid divides the parent into rows and columns. It is the most powerful manager for form-like layouts.</p>
+            <h3>Weights:</h3>
+            <p>By default, columns don't resize. To make a column expand, you must configure its <code>weight</code>.</p>
+            <div class="code-window" style="margin-top:10px"><div class="code-content">root.columnconfigure(1, weight=1)
+root.rowconfigure(1, weight=1)</div></div>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <div style="display:grid;grid-template-columns:1fr 2fr;gap:5px;width:100%;max-width:300px;">
+                    <div style="grid-row:span 2;background:#ffcccc;display:flex;align-items:center;justify-content:center;border-radius:4px;padding:20px;">Sidebar</div>
+                    <div style="background:#ccffcc;display:flex;align-items:center;justify-content:center;border-radius:4px;padding:10px;">Header</div>
+                    <div style="background:#ccccff;height:100px;border-radius:4px;display:flex;align-items:center;justify-content:center;">Main Content</div>
+                </div>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+
+tk.Label(root, text=<span class="str">"Name:"</span>).grid(row=0, column=0, padx=5, pady=5, sticky=<span class="str">"e"</span>)
+tk.Label(root, text=<span class="str">"Email:"</span>).grid(row=1, column=0, padx=5, pady=5, sticky=<span class="str">"e"</span>)
+
+e1 = tk.Entry(root)
+e2 = tk.Entry(root)
+e1.grid(row=0, column=1, padx=5, pady=5)
+e2.grid(row=1, column=1, padx=5, pady=5)
+
+root.columnconfigure(1, weight=1)
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

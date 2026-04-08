@@ -1,0 +1,56 @@
+<!-- Slide 28: Billing System -->
+<section class="slide" id="slide-28">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Complex App: Billing System</h2>
+            <p>This complex example combines <code>Entry</code>, <code>Listbox</code>, calculations, and state management to create a functional Point of Sale.</p>
+            <h3>Features:</h3>
+            <ul>
+                <li>Input validation (ensure numbers).</li>
+                <li>Dynamic list update.</li>
+                <li>Running total calculation.</li>
+                <li>Menu bar integration.</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area" style="padding:0;">
+                <div class="billing-app">
+                    <div class="bill-header">
+                        <strong>Billing System</strong>
+                        <span style="font-size:12px;">Menu: File | Edit</span>
+                    </div>
+                    <div class="bill-body">
+                        <div class="bill-inputs">
+                            <input type="text" id="billItem" class="tk-entry" placeholder="Item Name">
+                            <input type="number" id="billPrice" class="tk-entry" placeholder="Price">
+                            <input type="number" id="billQty" class="tk-entry" placeholder="Qty">
+                            <button class="tk-btn" style="width:100%;background:var(--accent);color:white;" onclick="addBillItem()">Add Item</button>
+                            <hr style="border:0;border-top:1px solid #ddd;">
+                            <div style="font-weight:bold;text-align:right;" id="billTotal">Total: $0.00</div>
+                        </div>
+                        <div class="bill-list" id="billListContainer">
+                            <div style="color:#999;text-align:center;margin-top:20px;">No items yet...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+total_var = tk.DoubleVar(value=0.0)
+
+<span class="kw">def</span> <span class="func">add_item</span>():
+    name  = name_entry.get()
+    <span class="kw">try</span>:
+        price = float(price_entry.get())
+        qty   = int(qty_entry.get())
+        total = price * qty
+        bill_list.insert(tk.END, f<span class="str">"{name} (x{qty}) - ${total:.2f}"</span>)
+        total_var.set(total_var.get() + total)
+    <span class="kw">except</span> ValueError:
+        messagebox.showerror(<span class="str">"Error"</span>, <span class="str">"Invalid Input"</span>)
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

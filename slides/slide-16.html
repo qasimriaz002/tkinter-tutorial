@@ -1,0 +1,40 @@
+<!-- Slide 16: Progressbar -->
+<section class="slide" id="slide-16">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Widget: Progressbar</h2>
+            <p>Visualizes the progress of a long-running operation.</p>
+            <h3>Modes:</h3>
+            <ul>
+                <li><code>determinate</code>: Shows percentage (0 to 100).</li>
+                <li><code>indeterminate</code>: Shows movement but unknown progress (loading bar).</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <div style="width:200px;height:20px;background:#eee;border:1px solid #999;border-radius:4px;overflow:hidden;">
+                    <div id="progFill" style="width:0%;height:100%;background:var(--accent);transition:width 0.2s;"></div>
+                </div>
+                <br>
+                <button class="tk-btn" onclick="fillProgress()">Start Loading</button>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">from</span> tkinter <span class="kw">import</span> ttk
+<span class="kw">import</span> tkinter <span class="kw">as</span> tk, time
+
+root = tk.Tk()
+
+pb = ttk.Progressbar(root, orient=<span class="str">"horizontal"</span>, length=200, mode=<span class="str">"determinate"</span>)
+pb.pack(pady=20)
+
+<span class="kw">def</span> <span class="func">bar</span>():
+    pb[<span class="str">'value'</span>] = 0
+    <span class="kw">for</span> i <span class="kw">in</span> range(101):
+        pb[<span class="str">'value'</span>] = i
+        root.update_idletasks()
+        time.sleep(0.01)
+
+tk.Button(root, text=<span class="str">"Start"</span>, command=bar).pack()
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

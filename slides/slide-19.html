@@ -1,0 +1,54 @@
+<!-- Slide 19: Menus -->
+<section class="slide" id="slide-19">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Creating Menus</h2>
+            <p>Every desktop app needs a Menu bar. In Tkinter, you create a <code>Menu</code> widget, configure the <code>root</code> to use it, and add cascades (dropdowns) and commands.</p>
+            <h3>Steps:</h3>
+            <ol>
+                <li>Create <code>menubar = tk.Menu(root)</code>.</li>
+                <li>Create sub-menus (e.g., <code>file_menu</code>).</li>
+                <li>Add items using <code>.add_command()</code>.</li>
+                <li>Add to menubar using <code>.add_cascade()</code>.</li>
+                <li>Set <code>root.config(menu=menubar)</code>.</li>
+            </ol>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <div class="menu-demo">
+                    <div class="menubar">
+                        <div class="menu-item">File
+                            <div class="dropdown">
+                                <div class="dropdown-item" onclick="alert('New File')">New</div>
+                                <div class="dropdown-item" onclick="alert('Open...')">Open...</div>
+                                <div class="dropdown-item" onclick="alert('Save')">Save</div>
+                            </div>
+                        </div>
+                        <div class="menu-item">Edit
+                            <div class="dropdown">
+                                <div class="dropdown-item" onclick="alert('Undo')">Undo</div>
+                                <div class="dropdown-item" onclick="alert('Redo')">Redo</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding:20px;color:#888;text-align:center;">(Hover over File or Edit)</div>
+                </div>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+
+menubar = tk.Menu(root)
+
+file_menu = tk.Menu(menubar, tearoff=0)
+file_menu.add_command(label=<span class="str">"New"</span>, command=<span class="kw">lambda</span>: <span class="kw">print</span>(<span class="str">"New"</span>))
+file_menu.add_command(label=<span class="str">"Open"</span>, command=<span class="kw">lambda</span>: <span class="kw">print</span>(<span class="str">"Open"</span>))
+file_menu.add_separator()
+file_menu.add_command(label=<span class="str">"Exit"</span>, command=root.quit)
+
+menubar.add_cascade(label=<span class="str">"File"</span>, menu=file_menu)
+root.config(menu=menubar)
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

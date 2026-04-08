@@ -1,0 +1,28 @@
+<!-- Slide 21: Message Boxes -->
+<section class="slide" id="slide-21">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Message Boxes</h2>
+            <p>Message boxes are pop-up modals that pause the application until the user responds.</p>
+            <h3>Types:</h3>
+            <ul>
+                <li><code>showinfo()</code>: General info.</li>
+                <li><code>showwarning()</code>: Warning messages.</li>
+                <li><code>showerror()</code>: Critical errors.</li>
+                <li><code>askquestion()</code>: Yes/No (returns 'yes' or 'no').</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area" style="flex-direction:row;gap:10px;flex-wrap:wrap;padding:20px;">
+                <button class="tk-btn" onclick="showModal('info','Info','Download Complete')">Info</button>
+                <button class="tk-btn" onclick="showModal('warning','Warning','Disk Space Low')">Warning</button>
+                <button class="tk-btn" onclick="showModal('error','Error','File Corrupted')" style="background:#ffcccc;">Error</button>
+                <button class="tk-btn" onclick="showModal('question','Confirm','Delete file?')" style="background:#ccffcc;">Question</button>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">from</span> tkinter <span class="kw">import</span> messagebox
+
+<span class="kw">if</span> messagebox.askyesno(<span class="str">"Exit"</span>, <span class="str">"Do you want to quit?"</span>):
+    root.destroy()</div></div>
+        </div>
+    </div>
+</section>

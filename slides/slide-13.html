@@ -1,0 +1,45 @@
+<!-- Slide 13: Listbox -->
+<section class="slide" id="slide-13">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Widget: Listbox</h2>
+            <p>A Listbox displays a list of items from which the user can select one or more.</p>
+            <h3>Key Methods:</h3>
+            <ul>
+                <li><code>.insert(END, item)</code>: Add to list.</li>
+                <li><code>.curselection()</code>: Returns tuple of selected indices.</li>
+                <li><code>.get(index)</code>: Get text at index.</li>
+                <li><code>selectmode</code>: 'browse' (single) or 'extended' (multiple).</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <div class="listbox-demo" id="listboxDemo">
+                    <div class="list-item" onclick="selectLb(this)">Python</div>
+                    <div class="list-item" onclick="selectLb(this)">Java</div>
+                    <div class="list-item" onclick="selectLb(this)">C++</div>
+                    <div class="list-item" onclick="selectLb(this)">JavaScript</div>
+                    <div class="list-item" onclick="selectLb(this)">Rust</div>
+                </div>
+                <p id="lbOutput" class="tk-label" style="margin-top:10px;">Selected: None</p>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+lb = tk.Listbox(root, height=5, selectmode=<span class="str">"single"</span>)
+lb.pack()
+
+items = [<span class="str">"Python"</span>, <span class="str">"Java"</span>, <span class="str">"C++"</span>, <span class="str">"JavaScript"</span>]
+<span class="kw">for</span> item <span class="kw">in</span> items:
+    lb.insert(tk.END, item)
+
+<span class="kw">def</span> <span class="func">show_selected</span>():
+    selection = lb.curselection()
+    <span class="kw">if</span> selection:
+        print(lb.get(selection[0]))
+
+tk.Button(root, text=<span class="str">"Show Selected"</span>, command=show_selected).pack()
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

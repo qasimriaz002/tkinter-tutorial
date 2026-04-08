@@ -1,0 +1,45 @@
+<!-- Slide 30: UX/UI Design Principles -->
+<section class="slide" id="slide-30">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>UX/UI Design Principles</h2>
+            <p>Creating professional and usable interfaces requires more than just code — it requires design thinking.</p>
+
+            <h3>Color Schemes</h3>
+            <ul>
+                <li><strong>Contrast:</strong> Ensure text is readable (WCAG standards).</li>
+                <li><strong>Consistency:</strong> Define a palette (Primary Blue, Success Green, Error Red) and stick to it.</li>
+                <li><strong>Meaning:</strong> Use colors semantically (Red = Danger, Green = Safe).</li>
+            </ul>
+
+            <h3>Spacing &amp; Alignment</h3>
+            <ul>
+                <li><strong>Whitespace:</strong> Use <code>padx</code>, <code>pady</code> to let elements breathe.</li>
+                <li><strong>Alignment:</strong> Align labels with inputs using Grid. Group related controls in Frames.</li>
+            </ul>
+
+            <h3>Accessibility</h3>
+            <ul>
+                <li>Support keyboard navigation (Tab order).</li>
+                <li>Clear, readable fonts (Sans-serif like Arial/Helvetica).</li>
+                <li>Don't rely solely on color to convey information — use icons and text too.</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
+                <div style="background:var(--tkinter-blue);padding:15px;border-radius:8px;border-left:4px solid var(--accent);">
+                    <h3>Bad Design</h3>
+                    <p style="font-size:0.9rem;color:#555;">Cluttered, inconsistent alignment, low contrast, no whitespace.</p>
+                </div>
+                <div style="background:#fff;padding:15px;border-radius:8px;border:1px solid var(--border);">
+                    <h3>Good Design</h3>
+                    <p style="font-size:0.9rem;">Clean, aligned, readable, logical grouping of elements.</p>
+                </div>
+            </div>
+            <div style="text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;margin-top:20px;padding:20px;background:var(--tkinter-gray);border-radius:8px;">
+                <h2 style="color:var(--accent);">End of Course</h2>
+                <p>You now have the tools to build professional Python GUIs.</p>
+            </div>
+        </div>
+    </div>
+</section>

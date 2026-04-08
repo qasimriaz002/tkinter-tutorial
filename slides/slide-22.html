@@ -1,0 +1,39 @@
+<!-- Slide 22: Dynamic Properties -->
+<section class="slide" id="slide-22">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Dynamic Widget Properties</h2>
+            <p>Widgets are not static. You can change their appearance at runtime using the <code>.config()</code> method.</p>
+            <h3>Common Config Keys:</h3>
+            <ul>
+                <li><code>text</code>: Change label text.</li>
+                <li><code>bg</code>, <code>fg</code>: Change colors.</li>
+                <li><code>state</code>: Set to <code>"disabled"</code> to grey out a button.</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <div id="dynLabel" class="tk-label" style="font-size:18px;padding:10px;border:1px solid #ccc;">Original Text</div>
+                <br>
+                <div style="display:flex;gap:10px;">
+                    <button id="dynBtn" class="tk-btn" onclick="this.disabled=true;document.getElementById('dynLabel').innerText='Updated!';document.getElementById('dynLabel').style.color='white';document.getElementById('dynLabel').style.background='red';">Run Config</button>
+                    <button class="tk-btn" onclick="resetDemo22()">Reset Config</button>
+                </div>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+<span class="kw">def</span> <span class="func">change_properties</span>():
+    lbl.config(text=<span class="str">"Updated Dynamically!"</span>, fg=<span class="str">"white"</span>, bg=<span class="str">"red"</span>)
+    btn.config(state=<span class="str">"disabled"</span>)
+
+root = tk.Tk()
+lbl = tk.Label(root, text=<span class="str">"Original Text"</span>)
+lbl.pack(pady=20)
+
+btn = tk.Button(root, text=<span class="str">"Click to Change"</span>, command=change_properties)
+btn.pack()
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

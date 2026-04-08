@@ -1,0 +1,26 @@
+<!-- Slide 2: Getting Started -->
+<section class="slide" id="slide-2">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Getting Started with Tkinter</h2>
+            <p>To create a GUI, we need a "Root" window. This acts as the container for all other widgets (buttons, labels, etc.).</p>
+            <div class="info-box">
+                <strong>Key Concept:</strong> The <code>mainloop()</code> method is crucial. It keeps the window open and listens for events (clicks, key presses) indefinitely.
+            </div>
+            <p>Without <code>mainloop()</code>, the script would execute, create the window, and close immediately.</p>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <p style="font-size:0.9rem;color:#666;">(Live Window would appear here)</p>
+                <div style="width:300px;height:200px;border:2px solid #ccc;background:white;display:flex;justify-content:center;align-items:center;">Empty Root Window</div>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+root.title(<span class="str">"My First App"</span>)
+root.geometry(<span class="str">"400x300"</span>)
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

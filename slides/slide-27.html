@@ -1,0 +1,56 @@
+<!-- Slide 27: Login Application -->
+<section class="slide" id="slide-27">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Login Application Example</h2>
+            <p>A login system demonstrates conditional logic, input retrieval, and screen navigation.</p>
+            <h3>Workflow:</h3>
+            <ol>
+                <li>User enters credentials.</li>
+                <li>Click "Login" triggers validation.</li>
+                <li>If Valid: Hide login frame, show dashboard.</li>
+                <li>If Invalid: Show <code>messagebox.showerror</code>.</li>
+            </ol>
+            <p><strong>Credentials:</strong> User: <code>admin</code>, Pass: <code>1234</code></p>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <div id="loginScreen" style="display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;">
+                    <h3>Login</h3>
+                    <input type="text" id="lUser" class="tk-entry" placeholder="Username" style="width:90%;">
+                    <input type="password" id="lPass" class="tk-entry" placeholder="Password" style="width:90%;">
+                    <button class="tk-btn" style="width:90%;background:var(--accent);color:white;" onclick="attemptLogin()">Login</button>
+                </div>
+                <div id="dashScreen" style="display:none;text-align:center;">
+                    <h2>Welcome, Admin!</h2>
+                    <p>Redirected successfully.</p>
+                    <button class="tk-btn" onclick="resetLogin()">Logout</button>
+                </div>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+<span class="kw">from</span> tkinter <span class="kw">import</span> messagebox
+
+<span class="kw">def</span> <span class="func">login</span>():
+    u = user_entry.get()
+    p = pass_entry.get()
+    <span class="kw">if</span> u == <span class="str">"admin"</span> <span class="kw">and</span> p == <span class="str">"1234"</span>:
+        login_frame.pack_forget()
+        dashboard_frame.pack(fill=<span class="str">"both"</span>, expand=<span class="kw">True</span>)
+        tk.Label(dashboard_frame, text=<span class="str">"Welcome!"</span>, font=(<span class="str">"Arial"</span>, 20)).pack(expand=<span class="kw">True</span>)
+    <span class="kw">else</span>:
+        messagebox.showerror(<span class="str">"Error"</span>, <span class="str">"Wrong credentials"</span>)
+
+root = tk.Tk()
+login_frame = tk.Frame(root)
+login_frame.pack(padx=20, pady=20)
+
+user_entry = tk.Entry(login_frame)
+pass_entry = tk.Entry(login_frame, show=<span class="str">"*"</span>)
+user_entry.pack(); pass_entry.pack()
+
+tk.Button(login_frame, text=<span class="str">"Login"</span>, command=login).pack()
+dashboard_frame = tk.Frame(root)
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

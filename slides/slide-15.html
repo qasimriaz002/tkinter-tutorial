@@ -1,0 +1,40 @@
+<!-- Slide 15: Combobox -->
+<section class="slide" id="slide-15">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Widget: Combobox (ttk)</h2>
+            <p>The Combobox combines an Entry field with a drop-down list. It is part of the <code>ttk</code> (themed tk) submodule.</p>
+            <h3>Key Features:</h3>
+            <ul>
+                <li>User can type a value OR select from the list.</li>
+                <li><code>.current(0)</code> sets the default selection.</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <select id="comboDemo" class="tk-entry" style="width:150px;" onchange="document.getElementById('comboOutput').innerText=this.value">
+                    <option>USA</option>
+                    <option>UK</option>
+                    <option>India</option>
+                    <option>Germany</option>
+                </select>
+                <p id="comboOutput" class="tk-label" style="margin-top:10px;">Selected: USA</p>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">from</span> tkinter <span class="kw">import</span> ttk
+<span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+
+options = [<span class="str">"USA"</span>, <span class="str">"UK"</span>, <span class="str">"India"</span>, <span class="str">"Germany"</span>]
+combo = ttk.Combobox(root, values=options)
+combo.current(0)
+combo.pack(pady=10)
+
+<span class="kw">def</span> <span class="func">submit</span>():
+    print(combo.get())
+
+tk.Button(root, text=<span class="str">"Submit"</span>, command=submit).pack()
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

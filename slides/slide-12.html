@@ -1,0 +1,38 @@
+<!-- Slide 12: Scale -->
+<section class="slide" id="slide-12">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Widget: Scale</h2>
+            <p>The Scale widget provides a slider to select a value from a numerical range.</p>
+            <h3>Parameters:</h3>
+            <ul>
+                <li><code>from_</code>: Minimum value.</li>
+                <li><code>to</code>: Maximum value.</li>
+                <li><code>orient</code>: "horizontal" or "vertical".</li>
+                <li><code>resolution</code>: Step size.</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <label>Volume:</label>
+                <input type="range" min="0" max="100" value="50" oninput="document.getElementById('scaleVal').innerText=this.value" style="width:200px;">
+                <br>
+                <div class="tk-label">Value: <span id="scaleVal" style="font-weight:bold;">50</span></div>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+<span class="kw">def</span> <span class="func">on_slide</span>(val):
+    lbl.config(text=f<span class="str">"Volume: {val}%"</span>)
+
+root = tk.Tk()
+
+lbl = tk.Label(root, text=<span class="str">"Volume: 50%"</span>)
+lbl.pack()
+
+scale = tk.Scale(root, from_=0, to=100, orient=<span class="str">'horizontal'</span>, command=on_slide, length=200)
+scale.pack()
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

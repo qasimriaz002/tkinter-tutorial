@@ -1,0 +1,36 @@
+<!-- Slide 18: Pack Expand & Propagate -->
+<section class="slide" id="slide-18">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Pack: Expand &amp; Propagate</h2>
+            <h3><code>expand=True</code></h3>
+            <p>Tells the parent container to allocate any <strong>extra</strong> space to this widget's slot.</p>
+            <h3><code>pack_propagate(False)</code></h3>
+            <p>By default, a Frame shrinks to fit its children. <code>pack_propagate(False)</code> forces the Frame to keep its specified size, regardless of what is inside it. This is critical for fixed-size backgrounds.</p>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <div style="width:100%;height:150px;border:2px solid var(--accent);background:var(--tkinter-blue);display:flex;flex-direction:column;gap:5px;padding:5px;">
+                    <div style="flex:1;background:var(--accent);display:flex;align-items:center;justify-content:center;color:white;border-radius:4px;">Button 1 (Expand)</div>
+                    <div style="background:var(--tkinter-gray);padding:8px;text-align:center;border-radius:4px;">Button 2</div>
+                </div>
+                <p style="font-size:12px;margin-top:10px;">Button 1 fills the extra space.</p>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+
+frame = tk.Frame(root, width=400, height=300, bg=<span class="str">"yellow"</span>)
+frame.pack_propagate(<span class="kw">False</span>)
+frame.pack()
+
+btn1 = tk.Button(frame, text=<span class="str">"I Expand"</span>, bg=<span class="str">"lightblue"</span>)
+btn1.pack(expand=<span class="kw">True</span>, fill=<span class="str">"both"</span>)
+
+btn2 = tk.Button(frame, text=<span class="str">"I am small"</span>)
+btn2.pack()
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

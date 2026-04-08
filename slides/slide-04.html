@@ -1,0 +1,39 @@
+<!-- Slide 4: Label -->
+<section class="slide" id="slide-4">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Widget: Label</h2>
+            <p>Labels are used to display text or images. They are generally non-interactive.</p>
+            <h3>Common Parameters:</h3>
+            <ul>
+                <li><code>text</code>: The string to display.</li>
+                <li><code>font</code>: Tuple <code>("Family", Size, "Style")</code></li>
+                <li><code>fg</code>: Foreground (text) color.</li>
+                <li><code>bg</code>: Background color.</li>
+                <li><code>anchor</code>: Position text within the widget ('n', 's', 'e', 'w', 'center').</li>
+            </ul>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <div id="lblDemo" class="tk-label" style="font-size:24px;font-weight:bold;color:blue;">Hello, Students!</div>
+                <br>
+                <button class="tk-btn" onclick="document.getElementById('lblDemo').innerText='Updated Text!';document.getElementById('lblDemo').style.color='green'">Update Text</button>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+root.geometry(<span class="str">"300x200"</span>)
+
+lbl = tk.Label(
+    root,
+    text=<span class="str">"Hello, Students!"</span>,
+    font=(<span class="str">"Helvetica"</span>, 18, <span class="str">"bold"</span>),
+    fg=<span class="str">"blue"</span>,
+    bg=<span class="str">"yellow"</span>
+)
+lbl.pack(pady=20)
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

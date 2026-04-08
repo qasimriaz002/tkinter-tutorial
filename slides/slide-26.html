@@ -1,0 +1,43 @@
+<!-- Slide 26: Responsive Layouts -->
+<section class="slide" id="slide-26">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Advanced Pack: Responsive Frames</h2>
+            <p>This demonstrates how to build a classic layout: Header, Sidebar, and Main Content. Used in IDEs, email clients, and dashboards.</p>
+            <h3>Key Concepts:</h3>
+            <ul>
+                <li><strong>Header:</strong> Packed <code>side="top"</code>, <code>fill="x"</code>. Spans the width.</li>
+                <li><strong>Sidebar:</strong> Packed <code>side="left"</code>, <code>fill="y"</code>. Spans the height.</li>
+                <li><strong>Main Content:</strong> Packed <code>side="left"</code> with <code>expand=True</code>, <code>fill="both"</code>. Takes remaining space.</li>
+            </ul>
+            <p>Drag the resize handle on the demo to see how widgets adapt!</p>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <p style="font-size:0.8rem;margin-bottom:5px;">Try resizing (bottom-right corner):</p>
+                <div class="resizable-window">
+                    <div class="frame-top">Top Bar (fill='x')</div>
+                    <div class="frame-body">
+                        <div class="frame-side">Sidebar<br>(fill='y')</div>
+                        <div class="frame-main">Main Content<br>(expand=True)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+root.geometry(<span class="str">"400x300"</span>)
+
+top_bar = tk.Frame(root, bg=<span class="str">"#ffcccc"</span>, height=30)
+top_bar.pack(side=<span class="str">"top"</span>, fill=<span class="str">"x"</span>)
+
+sidebar = tk.Frame(root, bg=<span class="str">"#ccffcc"</span>, width=100)
+sidebar.pack(side=<span class="str">"left"</span>, fill=<span class="str">"y"</span>)
+
+main = tk.Frame(root, bg=<span class="str">"#ccccff"</span>)
+main.pack(side=<span class="str">"left"</span>, fill=<span class="str">"both"</span>, expand=<span class="kw">True</span>)
+
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>

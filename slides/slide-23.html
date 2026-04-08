@@ -1,0 +1,33 @@
+<!-- Slide 23: Loading Images -->
+<section class="slide" id="slide-23">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Displaying Images</h2>
+            <p>Tkinter supports images (PNG, GIF) via <code>PhotoImage</code> (for basic formats) or <code>PIL.ImageTk</code> (for JPEG/PNG via Pillow).</p>
+            <div class="info-box">
+                <strong>CRITICAL BUG:</strong> If you assign <code>PhotoImage</code> to a local variable inside a function, it gets garbage collected before displaying. <strong>You must keep a reference to the image object.</strong>
+            </div>
+        </div>
+        <div class="right-col">
+            <div class="demo-area">
+                <img src="https://picsum.photos/seed/tkinter/200/150" alt="Demo Image" style="border:1px solid #ccc;border-radius:4px;">
+                <p style="font-size:0.8rem;margin-top:5px;">(Placeholder Image Loaded)</p>
+            </div>
+            <div class="code-window"><div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+root = tk.Tk()
+
+<span class="com"># 1. Load the image</span>
+img = tk.PhotoImage(file=<span class="str">"logo.png"</span>)
+
+<span class="com"># 2. Create Label with image</span>
+img_label = tk.Label(root, image=img)
+
+<span class="com"># 3. Keep reference (prevents garbage collection!)</span>
+img_label.image = img
+
+img_label.pack()
+root.mainloop()</div></div>
+        </div>
+    </div>
+</section>
