@@ -66,6 +66,11 @@ header {
 
 .logo { font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; }
 .logo svg { width: 24px; height: 24px; fill: var(--accent); }
+.logo img {
+    height: 1.2em;
+    width: auto;
+    object-fit: contain;
+}
 .controls-top { display: flex; gap: 1rem; align-items: center; }
 
 button.theme-toggle {
