@@ -2,6 +2,8 @@
 
 # 🖼️ Tkinter Tutorial
 
+# By M. Qasim Riaz
+
 ### An interactive, slide-based web course for GUI programming in Python
 
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
