@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🖼️ Tkinter Masterclass
+# 🖼️ Tkinter Tutorial
 
 ### An interactive, slide-based web course for GUI programming in Python
 
