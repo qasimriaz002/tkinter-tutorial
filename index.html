@@ -19,6 +19,9 @@
         </div>
         <div class="controls-top">
             <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">◑</button>
+            <button class="drawer-toggle" id="drawerToggle" onclick="toggleDrawer()" title="Slide Index" aria-label="Open slide navigation">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </header>
 
@@ -1482,6 +1485,20 @@ root.mainloop()</div>
             </div>
         </div>
     </div>
+
+    <!-- Navigation Drawer Overlay -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+    <!-- Navigation Drawer -->
+    <nav class="drawer" id="drawer" aria-label="Slide navigation">
+        <div class="drawer-header">
+            <h3>📚 Slide Index</h3>
+            <button class="drawer-close" onclick="closeDrawer()" aria-label="Close">✕</button>
+        </div>
+        <div class="drawer-list" id="drawerList">
+            <!-- Populated by navigation.js -->
+        </div>
+    </nav>
 
     <script src="js/navigation.js" defer></script>
     <script src="js/demos.js"></script>
