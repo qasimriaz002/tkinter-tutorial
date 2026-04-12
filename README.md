@@ -1,8 +1,8 @@
 <div align="center">
 
-# 🖼️ Tkinter Tutorial
+#  <img width="35" height="35" alt="image" src="https://github.com/user-attachments/assets/e10770a0-d745-4a73-800b-a79771004518" />Tkinter Tutorial
 
-# By M. Qasim Riaz
+##### (Developed by M. Qasim Riaz)
 
 ### An interactive, slide-based web course for GUI programming in Python
 
