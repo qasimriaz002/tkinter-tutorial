@@ -4,6 +4,8 @@
 
 ##### (Developed by M. Qasim Riaz)
 
+##### Access at >>> https://qasimriaz002.github.io/tkinter-tutorial/
+
 ### An interactive, slide-based web course for GUI programming in Python
 
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
@@ -39,10 +41,10 @@ No install, no build step, no internet required.
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/tkinter-masterclass.git
+git clone https://github.com/qasimriaz002/tkinter-tutorial.git
 
 # Open in browser
-cd tkinter-masterclass
+cd tkinter-tutorial
 open index.html          # macOS
 start index.html         # Windows
 xdg-open index.html      # Linux
@@ -148,7 +150,7 @@ xdg-open index.html      # Linux
 ## 📁 Project Structure
 
 ```
-tkinter-masterclass/
+tkinter-tutorial/
 │
 ├── 📄 index.html                ← Main entry point (all 30 slides embedded)
 │
