@@ -43,7 +43,9 @@ body {
     font-family: var(--font-main);
     background-color: var(--bg-body);
     color: var(--text-primary);
+    /* dvh accounts for mobile browser address bar; vh is the fallback for older browsers */
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     transition: background-color var(--transition-speed), color var(--transition-speed);
     display: flex;
@@ -244,3 +246,34 @@ footer {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #aaa; }
+
+/* --- MOBILE / SMALL SCREEN FIXES --- */
+@media (max-width: 600px) {
+    /* Shrink header so slides and footer have more room */
+    header { padding: 0.6rem 1rem; }
+    .logo  { font-size: 1rem; }
+
+    /* Compact slide padding */
+    section.slide { padding: 1rem 1.2rem; }
+
+    /* Compact footer — this is the main fix for the hidden footer bug */
+    footer { padding: 0.5rem 0.8rem; }
+
+    /* Smaller nav buttons so they fit on narrow screens */
+    .nav-btn {
+        padding: 0.55rem 1rem;
+        font-size: 0.85rem;
+        border-radius: 20px;
+    }
+
+    .slide-counter { font-size: 0.85rem; }
+
+    /* Reduce heading sizes so content fits without pushing footer off-screen */
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.3rem; margin-top: 10px; }
+    h3 { font-size: 1rem; }
+    p, li { font-size: 0.9rem; }
+
+    /* Code blocks: smaller font so they don't overflow */
+    .code-window { font-size: 0.75rem; }
+}
