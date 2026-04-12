@@ -28,6 +28,7 @@
 | 📊 **30 Interactive Slides** | Every slide has a live demo alongside a Python code example |
 | 🌗 **Dark / Light Theme** | Instant toggle, persists across slides |
 | ⌨️ **Keyboard Navigation** | `→` / `Space` to advance, `←` to go back |
+| 🗂️ **Navigation Drawer** | Slide index panel — jump to any slide instantly by name |
 | 📱 **Mobile Responsive** | Sticky header & footer, works on all screen sizes |
 | 📈 **Progress Bar** | Always shows how far through the course you are |
 | 🎨 **Syntax Highlighting** | Python code colour-coded in every slide |
@@ -61,7 +62,43 @@ xdg-open index.html      # Linux
 | Next slide | `→` Arrow key or `Space` |
 | Previous slide | `←` Arrow key |
 | Toggle dark/light mode | Click `◑` button in the header |
+| Open slide index drawer | Click `☰` hamburger button in the header |
+| Jump to any slide | Open drawer → click any slide title |
+| Close drawer | Click `✕`, click outside, or press `Esc` |
 | Scroll slide content | Mouse wheel / touch scroll |
+
+---
+
+## 🗂️ Navigation Drawer
+
+The drawer gives you a full, always-accessible index of every slide organised by module — so you never have to click through slides one by one to find what you need.
+
+**How it works:**
+
+- Click the **☰ hamburger icon** in the top-right of the header to open the drawer
+- Slides are grouped into **6 colour-coded modules** for easy scanning
+- The **currently active slide** is highlighted in blue with a left accent border
+- The drawer list **auto-scrolls** to keep the active slide visible
+- Click any slide title to **jump directly** to that slide — the drawer closes automatically
+- A **dark overlay** appears behind the drawer; click it to dismiss
+- Press **`Esc`** at any time to close the drawer with the keyboard
+- The hamburger icon **animates into an ✕** when the drawer is open
+
+```
+☰  ←  click to open
+│
+├── 🟦 Foundations
+│   ├── 01  Introduction to GUI Programming
+│   ├── 02  Getting Started with Tkinter
+│   └── 03  Architecture Overview
+│
+├── 🟩 Core Widgets
+│   ├── 04  Widget: Label
+│   ├── 05  Widget: Button
+│   └── ...
+│
+└── (and so on for all 6 modules)
+```
 
 ---
 
@@ -155,10 +192,10 @@ tkinter-tutorial/
 ├── 📄 index.html                ← Main entry point (all 30 slides embedded)
 │
 ├── 📂 css/
-│   └── 🎨 styles.css            ← All styles: themes, layout, widgets, mobile fixes
+│   └── 🎨 styles.css            ← All styles: themes, layout, widgets, drawer, mobile fixes
 │
 ├── 📂 js/
-│   ├── 🔀 navigation.js         ← Slide switching, progress bar, keyboard, theme toggle
+│   ├── 🔀 navigation.js         ← Slide switching, progress bar, keyboard, theme toggle & drawer
 │   └── 🎮 demos.js              ← Interactive demo functions (calculator, login, billing…)
 │
 ├── 📂 slides/                   ← Individual slide fragments (for easy editing)
@@ -194,7 +231,7 @@ tkinter-tutorial/
 │   └── slide-30.html            ← UX/UI Design Principles
 │
 ├── 📂 assets/
-│   └── 📂 icons/                ← Custom icons (add favicon.ico here)
+│   └── 📂 icons/                ← Custom icons (favicon.png stored here)
 │
 ├── 📄 .gitignore                ← Ignores .DS_Store, Thumbs.db, *.log
 └── 📄 README.md                 ← This file
@@ -210,7 +247,7 @@ tkinter-tutorial/
 |---|---|---|
 | Markup | HTML5 | Slide structure & semantic layout |
 | Styling | CSS3 | Custom properties, grid, flexbox, `100dvh` mobile fix |
-| Logic | Vanilla JS (ES6+) | Navigation, demos, theme toggle |
+| Logic | Vanilla JS (ES6+) | Navigation, drawer, demos, theme toggle |
 | No framework | — | Zero `npm install`, zero build tools |
 
 ---
@@ -222,6 +259,7 @@ The course is fully usable on smartphones:
 - **Sticky header & footer** — always visible, never scroll off screen
 - **`100dvh`** — correctly handles mobile browser address bar height
 - **Touch scrolling** — slide content scrolls independently inside fixed chrome
+- **Navigation drawer** — tap `☰` to jump to any slide without endless swiping
 - **Compact layout** — font sizes and padding scale down on narrow screens via `@media (max-width: 600px)`
 
 ---
@@ -230,7 +268,7 @@ The course is fully usable on smartphones:
 
 1. Fork the repository
 2. To edit a slide, find the matching file in `slides/` and copy your changes into the same `<section>` in `index.html`
-3. To add a new slide, add a `<section class="slide">` block in `index.html` and update the slide counter in `js/navigation.js`
+3. To add a new slide, add a `<section class="slide">` block in `index.html` and add the corresponding entry to the `SLIDE_DATA` array at the top of `js/navigation.js` — the drawer updates automatically
 4. Submit a pull request with a clear description of your changes
 
 ---
