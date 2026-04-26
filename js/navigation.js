@@ -5,7 +5,6 @@
 
 /* =========================
    SLIDE DATA
-   (title must match slide content — update here if you rename a slide)
    ========================= */
 const SLIDE_DATA = [
     { module: 'Foundations',              title: 'Introduction to GUI Programming'  },
@@ -38,6 +37,10 @@ const SLIDE_DATA = [
     { module: 'Real-World Projects',      title: 'Billing System'                   },
     { module: 'Real-World Projects',      title: 'Advanced Event Handling'          },
     { module: 'Design & Polish',          title: 'UX/UI Design Principles'          },
+    { module: 'File Handling & GUI',      title: 'File Handling in Python'          },
+    { module: 'File Handling & GUI',      title: 'Connect GUI with File Handling'   },
+    { module: 'Advance Concepts',         title: 'Lambda Functions in GUI'          },
+    { module: 'Database & GUI',           title: 'Database Basic & SQL'             },
 ];
 
 /* =========================
@@ -45,6 +48,46 @@ const SLIDE_DATA = [
    ========================= */
 let currentSlide = 0;
 let slides, totalSlides, progressBar, counter;
+
+/* =========================
+   SLIDE LOADER (NEW)
+   ========================= */
+async function loadSlides() {
+    const wrapper = document.querySelector('.slides-wrapper');
+    const totalSlidesToLoad = SLIDE_DATA.length; // Should be 30
+
+    // Show loading state
+    document.getElementById('slideCounter').innerText = `Loading 0/${totalSlidesToLoad}...`;
+
+    for (let i = 1; i <= totalSlidesToLoad; i++) {
+        // Format number: 01, 02, ... 30
+        const num = String(i).padStart(2, '0');
+        const filePath = `slides/slide-${num}.html`;
+
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+            const html = await response.text();
+            wrapper.insertAdjacentHTML('beforeend', html);
+        } catch (error) {
+            console.error(`Could not load ${filePath}:`, error);
+            // Insert a fallback slide so the app doesn't break
+            wrapper.insertAdjacentHTML('beforeend', `
+                <section class="slide" id="slide-${i}">
+                    <div style="text-align:center; padding: 2rem;">
+                        <h2>Error Loading Slide ${i}</h2>
+                        <p>Could not find file: <code>${filePath}</code></p>
+                        <p style="color:red; font-size:0.8rem;">Note: This feature requires a local server (e.g., VS Code Live Server). Double-clicking the html file might block requests.</p>
+                    </div>
+                </section>
+            `);
+        }
+    }
+
+    // Once all slides are in the DOM, initialize navigation
+    initNavigation();
+}
 
 /* =========================
    CORE NAVIGATION
@@ -165,4 +208,5 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape')                      closeDrawer();
 });
 
-document.addEventListener('DOMContentLoaded', initNavigation);
+// Start the loader instead of initNavigation directly
+document.addEventListener('DOMContentLoaded', loadSlides);
