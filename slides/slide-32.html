@@ -1,0 +1,129 @@
+<!-- Slide 32: File Handling & Tkinter GUI -->
+<section class="slide" id="slide-32">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>File Handling &amp; Tkinter GUI</h2>
+            <p>Connecting File I/O to a GUI allows users to persist data. When a user clicks a button, we trigger a file operation (Read/Write/Append) and update the widgets on screen.</p>
+
+            <h3>Implementation Strategy</h3>
+            <ul>
+                <li><strong>Separation of Logic:</strong> Keep file operations in specific functions (<code>read_data</code>, <code>append_data</code>).</li>
+                <li><strong>Read:</strong> Open file in <code>"r"</code> mode, parse content, and display in a Text/Listbox widget.</li>
+                <li><strong>Append:</strong> Get input from Entry widgets, open file in <code>"a"</code> mode, and write the new line.</li>
+                <li><strong>Search:</strong> Read file line by line, match the name, and show specific result.</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>Tip:</strong> Always refresh the "View" list after adding a new student to show the updated file content.
+            </div>
+        </div>
+
+        <div class="right-col">
+            <!-- Interactive Demo Simulating Tkinter -->
+            <div class="demo-area">
+                <div style="display:flex; flex-direction:column; gap:10px; width:100%;">
+                    <div style="display:flex; gap:5px;">
+                        <input type="text" id="demoName" class="tk-entry" placeholder="Name (e.g. Sarah)" style="flex:1;">
+                        <input type="number" id="demoMarks" class="tk-entry" placeholder="Marks (e.g. 88)" style="flex:1;">
+                    </div>
+                    <div style="display:flex; gap:5px;">
+                        <button class="tk-btn" onclick="mockAdd()">Add Student</button>
+                        <button class="tk-btn" onclick="mockView()">View All</button>
+                        <button class="tk-btn" onclick="mockSearch()">Search</button>
+                    </div>
+                    <textarea id="demoOutput" class="tk-text" readonly rows="6" style="background:#fff; border:1px solid #999; width:100%; font-family:monospace; color:#333;">Output will appear here...</textarea>
+                </div>
+            </div>
+
+            <!-- Updated Python Code Snippet -->
+            <div class="code-window">
+                <div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+<span class="kw">from</span> tkinter <span class="kw">import</span> messagebox
+
+<span class="com"># --- 1. FILE FUNCTIONS ---</span>
+
+<span class="kw">def</span> <span class="func">append_student</span>(name, marks):
+    <span class="com"># Append mode adds to the end without overwriting</span>
+    <span class="kw">with</span> <span class="func">open</span>(<span class="str">"students.txt"</span>, <span class="str">"a"</span>) <span class="kw">as</span> file:
+        file.write(<span class="str">f"{name},{marks}\n"</span>)
+
+<span class="kw">def</span> <span class="func">read_all_students</span>():
+    content = <span class="str">""</span>
+    <span class="kw">try</span>:
+        <span class="kw">with</span> <span class="func">open</span>(<span class="str">"students.txt"</span>, <span class="str">"r"</span>) <span class="kw">as</span> file:
+            content = file.read()
+    <span class="kw">except</span> FileNotFoundError:
+        content = <span class="str">"No records found."</span>
+    <span class="kw">return</span> content
+
+<span class="kw">def</span> <span class="func">search_student</span>(name):
+    <span class="kw">with</span> <span class="func">open</span>(<span class="str">"students.txt"</span>, <span class="str">"r"</span>) <span class="kw">as</span> file:
+        <span class="kw">for</span> line <span class="kw">in</span> file:
+            <span class="kw">if</span> name <span class="kw">in</span> line:
+                <span class="kw">return</span> line.strip()
+    <span class="kw">return</span> <span class="str">"Student not found."</span>
+
+<span class="com"># --- 2. GUI FUNCTIONS ---</span>
+
+<span class="kw">def</span> <span class="func">handle_add</span>():
+    n = name_entry.get()
+    m = marks_entry.get()
+    <span class="kw">if</span> n <span class="kw">and</span> m:
+        append_student(n, m)
+        output_text.insert(tk.END, <span class="str">f"Added: {n}\n"</span>)
+
+<span class="kw">def</span> <span class="func">handle_view</span>():
+    output_text.delete(<span class="str">"1.0"</span>, tk.END)
+    data = read_all_students()
+    output_text.insert(tk.END, data)
+
+<span class="kw">def</span> <span class="func">handle_search</span>():
+    query = name_entry.get()
+    <span class="kw">if</span> query:
+        output_text.delete(<span class="str">"1.0"</span>, tk.END)
+        result = search_student(query)
+        output_text.insert(tk.END, result)
+
+<span class="com"># --- 3. TKINTER SETUP ---</span>
+
+root = tk.Tk()
+root.title(<span class="str">"Student Manager"</span>)
+
+name_entry = tk.Entry(root)
+marks_entry = tk.Entry(root)
+name_entry.pack(pady=5); marks_entry.pack(pady=5)
+
+tk.Button(root, text=<span class="str">"Add"</span>, command=handle_add).pack(side=tk.LEFT, padx=5)
+tk.Button(root, text=<span class="str">"View All"</span>, command=handle_view).pack(side=tk.LEFT, padx=5)
+tk.Button(root, text=<span class="str">"Search"</span>, command=handle_search).pack(side=tk.LEFT, padx=5)
+
+output_text = tk.Text(root, height=10)
+output_text.pack(pady=10)
+
+root.mainloop()</div>
+            </div>
+
+            <!-- New Section: Code Explanation -->
+            <div style="margin-top: 20px;">
+                <h3 style="font-size: 1rem; margin-bottom: 10px; color: var(--text-primary);">Code Explanation:</h3>
+
+                <div style="background: var(--tkinter-blue); padding: 15px; border-radius: 8px; border-left: 4px solid var(--accent);">
+                    <h4 style="font-size: 0.9rem; margin-bottom: 5px; color: var(--accent);">1. File Functions</h4>
+                    <ul style="margin-bottom: 10px; margin-top: 5px; padding-left: 20px;">
+                        <li><strong><code>append_student</code></strong>: Opens <code>students.txt</code> in <code>"a"</code> (append) mode. This adds the new name and marks to the end of the file without deleting previous data.</li>
+                        <li><strong><code>read_all_students</code></strong>: Opens the file in <code>"r"</code> (read) mode. It uses a <code>try...except</code> block to handle the error if the file hasn't been created yet.</li>
+                        <li><strong><code>search_student</code></strong>: Loops through the file line by line. It checks if the searched <code>name</code> exists in the current line string and returns that line if found.</li>
+                    </ul>
+
+                    <h4 style="font-size: 0.9rem; margin-bottom: 5px; color: var(--accent);">2. GUI Functions & Setup</h4>
+                    <ul style="margin-top: 5px; padding-left: 20px;">
+                        <li><strong><code>name_entry.get()</code></strong>: Retrieves the text currently typed into the Name input box.</li>
+                        <li><strong><code>output_text.delete("1.0", tk.END)</code></strong>: Clears the Text widget from the first character to the end before displaying new search results or the full list.</li>
+                        <li><strong><code>tk.Button</code></strong>: Three buttons are created, linking directly to <code>handle_add</code>, <code>handle_view</code>, and <code>handle_search</code>.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
