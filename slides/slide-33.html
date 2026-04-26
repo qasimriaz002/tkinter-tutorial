@@ -1,0 +1,75 @@
+<!-- Slide 33: Lambda Functions in GUI -->
+<section class="slide" id="slide-33">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Lambda Functions in GUI</h2>
+            <p>The <code>command</code> property of a Button expects a **reference to a function**, not the result of a function call.</p>
+
+            <h3>The Common Mistake</h3>
+            <p>If you write <code>command=my_function("Hello")</code>, Python executes <code>my_function</code> immediately when the script loads to determine what value to assign to <code>command</code>. The button then does nothing when clicked.</p>
+
+            <h3>The Solution: Lambda</h3>
+            <p>A <strong>lambda</strong> creates an anonymous wrapper function. When you write <code>command=lambda: my_function("Hello")</code>, you are telling Tkinter: <em>"Store this small function, and run the code inside it only when the button is clicked."</em></p>
+
+            <div class="info-box">
+                <strong>Rule of Thumb:</strong> Use <code>command=callback</code> (no parentheses) if the function takes no arguments. Use <code>command=lambda: callback(args)</code> if the function requires arguments.
+            </div>
+        </div>
+
+        <div class="right-col">
+            <!-- Interactive Demo comparing Immediate vs Delayed Execution -->
+            <div class="demo-area" style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+
+                <!-- Incorrect Way -->
+                <div style="border: 2px dashed #ffcccc; padding:10px; border-radius:8px;">
+                    <h4 style="color:#d9534f;">❌ Without Lambda</h4>
+                    <p style="font-size:0.8rem;">Function executed immediately at page load.</p>
+                    <div class="tk-entry" style="background:#fff; color:#333; height:60px; overflow:hidden;" id="badLog">Loading...</div>
+                    <button class="tk-btn" disabled style="background:#ccc; cursor:not-allowed; width:100%; margin-top:5px;">Button (Useless)</button>
+                </div>
+
+                <!-- Correct Way -->
+                <div style="border: 2px dashed #ccffcc; padding:10px; border-radius:8px;">
+                    <h4 style="color:#5cb85c;">✅ With Lambda</h4>
+                    <p style="font-size:0.8rem;">Function waits for the click event.</p>
+                    <div class="tk-entry" style="background:#fff; color:#333; height:60px; overflow:hidden;" id="goodLog">Waiting for click...</div>
+                    <button class="tk-btn" onclick="simLambda()" style="background:#4CAF50; color:white; width:100%; margin-top:5px;">Click Me</button>
+                </div>
+
+            </div>
+
+            <!-- Code Snippet Comparison -->
+            <div class="code-window">
+                <div class="code-content"><span class="kw">import</span> tkinter <span class="kw">as</span> tk
+
+<span class="com"># --- THE FUNCTION ---</span>
+<span class="kw">def</span> <span class="func">show_message</span>(text):
+    <span class="kw">print</span>(text)
+
+root = tk.Tk()
+
+<span class="com"># --- 1. INCORRECT WAY (Immediate Execution) ---</span>
+<span class="com"># This prints "Hello" to the console IMMEDIATELY when script runs.</span>
+<span class="com"># The button receives "None" as the command, so clicking does nothing.</span>
+btn_bad = tk.Button(
+    root,
+    text=<span class="str">"Bad Button"</span>,
+    command=show_message(<span class="str">"Hello"</span>)  <span class="com"># &lt;-- Runs now!</span>
+)
+btn_bad.pack(pady=5)
+
+<span class="com"># --- 2. CORRECT WAY (Using Lambda) ---</span>
+<span class="com"># The lambda creates a temporary function that wraps the call.</span>
+<span class="com"># It only runs "show_message" when the button is actually clicked.</span>
+btn_good = tk.Button(
+    root,
+    text=<span class="str">"Good Button"</span>,
+    command=<span class="kw">lambda</span>: show_message(<span class="str">"Hello"</span>)  <span class="com"># &lt;-- Waits for click!</span>
+)
+btn_good.pack(pady=5)
+
+root.mainloop()</div>
+            </div>
+        </div>
+    </div>
+</section>
