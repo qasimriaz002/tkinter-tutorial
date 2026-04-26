@@ -1,0 +1,57 @@
+<!-- Slide 31: File Handling in Python -->
+<section class="slide" id="slide-31">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>File Handling in Python</h2>
+            <p>File handling allows you to create, read, update, and delete files stored on your disk. This is crucial for saving user data, application logs, or configuration settings.</p>
+
+            <h3>1. Write Mode ("w")</h3>
+            <p>Creates a new file or overwrites an existing one. Use this to initialize data.</p>
+
+            <h3>2. Append Mode ("a")</h3>
+            <p>Adds data to the end of the file without erasing existing content.</p>
+
+            <h3>3. Read Mode ("r")</h3>
+            <p>Opens a file for reading (default mode). Used to load saved data.</p>
+
+            <div class="info-box">
+                <strong>Note:</strong> Always use the <code>with open(...)</code> context manager. It automatically closes the file, preventing data corruption.
+            </div>
+        </div>
+
+        <div class="right-col">
+            <!-- Visual Demo of the Text File -->
+            <div class="demo-area">
+                <div style="text-align: left; width: 100%;">
+                    <h4 style="margin-bottom: 5px;">students.txt</h4>
+                    <div class="code-window" style="background: white; border-color: #ccc; color: #333; font-family: monospace;">
+                        <div class="code-content" style="margin-top: 0; color: #333;">John,22
+Anna,24
+William,31</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Snippet including Write, Append, and Read -->
+            <div class="code-window">
+                <div class="code-content"><span class="com"># 1. WRITE MODE (Creates/Overwrites file)</span>
+<span class="kw">with</span> <span class="func">open</span>(<span class="str">"students.txt"</span>, <span class="str">"w"</span>) <span class="kw">as</span> file:
+    file.write(<span class="str">"John,22\n"</span>)
+    file.write(<span class="str">"Anna,24\n"</span>)
+
+<span class="com"># 2. APPEND MODE (Adds to end of file)</span>
+<span class="kw">with</span> <span class="func">open</span>(<span class="str">"students.txt"</span>, <span class="str">"a"</span>) <span class="kw">as</span> file:
+    file.write(<span class="str">"William,31\n"</span>)
+
+<span class="com"># 3. READ MODE (Reads line by line)</span>
+<span class="kw">with</span> <span class="func">open</span>(<span class="str">"students.txt"</span>, <span class="str">"r"</span>) <span class="kw">as</span> file:
+    <span class="kw">for</span> line <span class="kw">in</span> file:
+        <span class="com"># Strip whitespace and split by comma</span>
+        data = line.strip().split(<span class="str">","</span>)
+        name  = data[<span class="num">0</span>]
+        marks = data[<span class="num">1</span>]
+        <span class="kw">print</span>(<span class="str">f"Student: {name}, Marks: {marks}"</span>)</div>
+            </div>
+        </div>
+    </div>
+</section>
