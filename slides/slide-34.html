@@ -1,0 +1,136 @@
+<!-- Slide 34: Databases & SQL Concepts -->
+<section class="slide" id="slide-34">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Databases &amp; SQL Concepts</h2>
+
+            <h3>What &amp; Why?</h3>
+            <p>A <strong>Database</strong> is an organized collection of data. Unlike raw text files, databases enforce structure, security, and speed.</p>
+            <ul style="font-size: 0.9rem;">
+                <li><strong>File Handling Issues:</strong> Redundancy (duplicate data), Corruption (simultaneous editing), Slow Search (scanning whole text).</li>
+                <li><strong>Database Solutions:</strong> Atomicity (all-or-nothing transactions), Indexing (instant search), Relationships.</li>
+            </ul>
+
+            <h3>SQL Structure</h3>
+            <ul style="font-size: 0.9rem;">
+                <li><strong>DDL (Data Definition):</strong> Create/Drop tables (Structure).</li>
+                <li><strong>DML (Data Manipulation):</strong> Insert/Update/Delete data.</li>
+                <li><strong>DQL (Data Query):</strong> <code>SELECT</code> (Retrieve data).</li>
+            </ul>
+
+            <h3>Key Concepts</h3>
+            <ul style="font-size: 0.9rem;">
+                <li><strong>Primary Key (PK):</strong> Unique ID for every row (e.g., Student ID). Cannot be null.</li>
+                <li><strong>Foreign Key (FK):</strong> Links one table to another (e.g., Student ID in 'Marks' table).</li>
+                <li><strong>Not Null:</strong> Field must contain data.</li>
+            </ul>
+
+            <h3>Database Types</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.8rem; margin-top: 5px;">
+                <div style="background: #f0f0f0; padding: 5px; border-radius: 4px;">
+                    <strong>Relational (SQL)</strong><br>
+                    🏛️ Oracle<br>
+                    🐘 PostgreSQL<br>
+                    🔹 MS SQL Server
+                </div>
+                <div style="background: #f0f0f0; padding: 5px; border-radius: 4px;">
+                    <strong>NoSQL / Cloud</strong><br>
+                    🍃 MongoDB<br>
+                    ☁️ AWS DynamoDB<br>
+                    🔥 Firebase
+                </div>
+            </div>
+        </div>
+
+        <div class="right-col">
+            <!-- Visual Demo: Database Structure -->
+            <div class="demo-area" style="padding: 0; overflow: hidden;">
+                <div style="background: #e1f0ff; padding: 8px; border-bottom: 1px solid #ccc; font-weight: bold; font-size: 0.9rem;">
+                    Relational Example: Students (PK) &lt;--&gt; Marks (FK)
+                </div>
+                <div style="display: flex; width: 200%; overflow-x: auto;">
+                    <div style="width: 50%; border-right: 1px solid #ccc;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+                            <tr style="background: #ddd; text-align: left;">
+                                <th>id (PK)</th><th>name</th>
+                            </tr>
+                            <tr><td><strong>1</strong></td><td>John</td></tr>
+                            <tr><td><strong>2</strong></td><td>Sarah</td></tr>
+                        </table>
+                    </div>
+                    <div style="width: 50%;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+                            <tr style="background: #ddd; text-align: left;">
+                                <th>stud_id (FK)</th><th>grade</th>
+                            </tr>
+                            <tr><td><strong>1</strong></td><td>90</td></tr>
+                            <tr><td><strong>1</strong></td><td>85</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Python Code Snippet -->
+            <div class="code-window">
+                <div class="code-content"><span class="kw">import</span> sqlite3
+
+<span class="com"># Connect (Auto-creates .db file)</span>
+conn = sqlite3.connect(<span class="str">"school.db"</span>)
+c = conn.cursor()
+
+<span class="com"># --- 1. CREATE (DDL) ---</span>
+<span class="com"># id is PRIMARY KEY (Unique), name is NOT NULL</span>
+c.execute(<span class="str">'''CREATE TABLE IF NOT EXISTS students
+             (id INTEGER PRIMARY KEY, name TEXT NOT NULL, age INT)'''</span>)
+
+<span class="com"># --- 2. INSERT (DML) ---</span>
+<span class="com"># Insert multiple records</span>
+students = [(<span class="str">"John"</span>, 22), (<span class="str">"Sarah"</span>, 21), (<span class="str">"Mike"</span>, 23)]
+c.executemany(<span class="str">"INSERT INTO students (name, age) VALUES (?, ?)"</span>, students)
+
+<span class="com"># --- 3. SELECT (DQL) ---</span>
+
+<span class="com"># A. Select specific columns</span>
+c.execute(<span class="str">"SELECT name FROM students"</span>)
+<span class="kw">print</span>(<span class="str">"Names:"</span>, c.fetchall())
+
+<span class="com"># B. Select with WHERE clause (Filter)</span>
+c.execute(<span class="str">"SELECT * FROM students WHERE age > 21"</span>)
+<span class="kw">print</span>(<span class="str">"Students > 21:"</span>, c.fetchall())
+
+<span class="com"># Commit and Close</span>
+conn.commit()
+conn.close()</div>
+            </div>
+
+            <!-- New Section: Code Explanation -->
+            <div style="margin-top: 20px;">
+                <h3 style="font-size: 1rem; margin-bottom: 10px; color: var(--text-primary);">Code Explanation:</h3>
+
+                <div style="background: var(--tkinter-blue); padding: 15px; border-radius: 8px; border-left: 4px solid var(--accent);">
+                    <h4 style="font-size: 0.9rem; margin-bottom: 5px; color: var(--accent);">1. Connection &amp; Setup</h4>
+                    <ul style="margin-bottom: 10px; margin-top: 5px; padding-left: 20px;">
+                        <li><strong><code>sqlite3.connect()</code></strong>: Establishes the link. If <code>school.db</code> doesn't exist, it creates it automatically in your project folder.</li>
+                        <li><strong><code>cursor()</code></strong>: The "cursor" object acts like a pen that writes to the database. All SQL commands are executed through it.</li>
+                    </ul>
+
+                    <h4 style="font-size: 0.9rem; margin-bottom: 5px; color: var(--accent);">2. Creating Structure (DDL)</h4>
+                    <ul style="margin-bottom: 10px; margin-top: 5px; padding-left: 20px;">
+                        <li><strong><code>IF NOT EXISTS</code></strong>: Prevents the code from crashing if you run it twice; it only creates the table the first time.</li>
+                        <li><strong><code>INTEGER PRIMARY KEY</code></strong>: Automatically assigns a unique ID (1, 2, 3...) to every student. No two students can have the same ID.</li>
+                        <li><strong><code>NOT NULL</code></strong>: Ensures the <code>name</code> column cannot be left empty.</li>
+                    </ul>
+
+                    <h4 style="font-size: 0.9rem; margin-bottom: 5px; color: var(--accent);">3. Inserting &amp; Querying Data</h4>
+                    <ul style="margin-top: 5px; padding-left: 20px;">
+                        <li><strong><code>executemany</code></strong>: An efficient way to insert a list of data tuples in one go instead of writing 3 separate INSERT commands.</li>
+                        <li><strong><code>VALUES (?, ?)</code></strong>: The <code>?</code> is a placeholder. This prevents "SQL Injection" attacks by treating inputs as data, not code.</li>
+                        <li><strong><code>WHERE age > 21</code></strong>: A filter clause that tells the database to return only rows matching this condition.</li>
+                        <li><strong><code>commit()</code></strong>: <em>Critical.</em> Changes are temporary until you commit. If you forget this, the data will vanish when the script ends.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
