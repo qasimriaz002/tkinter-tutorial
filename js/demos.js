@@ -169,3 +169,50 @@ function addBillItem() {
     document.getElementById('billPrice').value = '';
     document.getElementById('billQty').value   = '';
 }
+/* ── Slide 32: File Handling & GUI Simulation ───────────────────────────────── */
+// Simulating the file content in a variable
+let studentDatabase = "John,22\nAnna,24\nWilliam,31";
+
+function updateDisplay(text) {
+    document.getElementById('demoOutput').value = text;
+}
+
+function mockAdd() {
+    const name = document.getElementById('demoName').value;
+    const marks = document.getElementById('demoMarks').value;
+
+    if(name && marks) {
+        studentDatabase += `\n${name},${marks}`;
+        document.getElementById('demoOutput').value += `Added: ${name}\n`;
+        document.getElementById('demoOutput').scrollTop = document.getElementById('demoOutput').scrollHeight;
+        // Clear inputs
+        document.getElementById('demoName').value = '';
+        document.getElementById('demoMarks').value = '';
+    } else {
+        alert("Please enter both Name and Marks.");
+    }
+}
+
+function mockView() {
+    document.getElementById('demoOutput').value = "--- All Students ---\n" + studentDatabase;
+}
+
+function mockSearch() {
+    const name = document.getElementById('demoName').value.toLowerCase();
+    if(!name) {
+        alert("Enter a name to search first.");
+        return;
+    }
+
+    const lines = studentDatabase.split('\n');
+    let result = "Student not found.";
+
+    for(let line of lines) {
+        if(line.toLowerCase().startsWith(name)) {
+            result = "Found: " + line;
+            break;
+        }
+    }
+
+    document.getElementById('demoOutput').value = result;
+}
