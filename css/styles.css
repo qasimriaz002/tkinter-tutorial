@@ -138,10 +138,10 @@ code {
     color: var(--code-text); position: relative; overflow-x: auto;
     border: 1px solid var(--border); margin-top: 10px; width: 100%;
 }
-.code-window::before {
-    content: '● ● ●'; position: absolute; top: 10px; left: 15px;
-    color: #555; font-size: 0.8rem; letter-spacing: 2px;
-}
+/*.code-window::before {*/
+/*    content: '● ● ●'; position: absolute; top: 10px; left: 15px;*/
+/*    color: #555; font-size: 0.8rem; letter-spacing: 2px;*/
+/*}*/
 .code-content { margin-top: 2rem; white-space: pre; line-height: 1.5; }
 
 /* Syntax Highlighting */
