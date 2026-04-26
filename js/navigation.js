@@ -4,7 +4,7 @@
  */
 
 /* =========================
-   SLIDE DATA
+   SLIDE DATA (UPDATED TO 34 SLIDES)
    ========================= */
 const SLIDE_DATA = [
     { module: 'Foundations',              title: 'Introduction to GUI Programming'  },
@@ -50,17 +50,20 @@ let currentSlide = 0;
 let slides, totalSlides, progressBar, counter;
 
 /* =========================
-   SLIDE LOADER (NEW)
+   SLIDE LOADER (WITH PROGRESS BAR)
    ========================= */
 async function loadSlides() {
     const wrapper = document.querySelector('.slides-wrapper');
-    const totalSlidesToLoad = SLIDE_DATA.length; // Should be 30
+    const totalSlidesToLoad = SLIDE_DATA.length;
 
-    // Show loading state
-    document.getElementById('slideCounter').innerText = `Loading 0/${totalSlidesToLoad}...`;
+    // 1. Select the span ID matching your index.html
+    counter = document.getElementById('slideCounter');
+
+    // 2. Initialize Loading State
+    counter.innerText = `Loading 0/${totalSlidesToLoad}...`;
 
     for (let i = 1; i <= totalSlidesToLoad; i++) {
-        // Format number: 01, 02, ... 30
+        // Format number: 01, 02, ... 34
         const num = String(i).padStart(2, '0');
         const filePath = `slides/slide-${num}.html`;
 
@@ -78,11 +81,15 @@ async function loadSlides() {
                     <div style="text-align:center; padding: 2rem;">
                         <h2>Error Loading Slide ${i}</h2>
                         <p>Could not find file: <code>${filePath}</code></p>
-                        <p style="color:red; font-size:0.8rem;">Note: This feature requires a local server (e.g., VS Code Live Server). Double-clicking the html file might block requests.</p>
+                        <p style="color:red; font-size:0.8rem;">Note: Use a Local Server (e.g., VS Code Live Server).</p>
                     </div>
                 </section>
             `);
         }
+
+        // 3. Update Loading Progress Text in Real-time
+        // This shows "Loading 1/34...", "Loading 2/34..." etc.
+        counter.innerText = `Loading ${i}/${totalSlidesToLoad}...`;
     }
 
     // Once all slides are in the DOM, initialize navigation
@@ -96,7 +103,9 @@ function initNavigation() {
     slides      = document.querySelectorAll('.slide');
     totalSlides = slides.length;
     progressBar = document.getElementById('progressBar');
-    counter     = document.getElementById('slideCounter');
+
+    // Re-assign counter just in case, though it was assigned in loader
+    counter = document.getElementById('slideCounter');
 
     buildDrawer();
     updateUI();
@@ -107,6 +116,9 @@ function updateUI() {
 
     const pct = ((currentSlide + 1) / totalSlides) * 100;
     progressBar.style.width = `${pct}%`;
+
+    // 4. Hide "Loading..." and show current slide count (e.g., "1 / 34")
+    // This effectively removes the "Loading" text from the screen
     counter.innerText = `${currentSlide + 1} / ${totalSlides}`;
 
     document.getElementById('prevBtn').disabled = currentSlide === 0;
