@@ -41,6 +41,7 @@ const SLIDE_DATA = [
     { module: 'File Handling & GUI',      title: 'Connect GUI with File Handling'   },
     { module: 'Advance Concepts',         title: 'Lambda Functions in GUI'          },
     { module: 'Database & GUI',           title: 'Database Basic & SQL'             },
+    { module: 'Database & GUI',           title: 'SQLite Database & GUI'             },
 ];
 
 /* =========================
