@@ -216,3 +216,83 @@ function mockSearch() {
 
     document.getElementById('demoOutput').value = result;
 }
+/* ── Slide 35: Database Simulation ───────────────────────────────── */
+let studentDB = [];
+
+function renderTable(data) {
+    const tbody = document.getElementById('dbTableBody');
+    tbody.innerHTML = '';
+
+    if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:10px; color:#888;">No records found.</td></tr>';
+        return;
+    }
+
+    data.forEach(student => {
+        const row = `<tr>
+            <td style="border:1px solid #ccc; padding:4px;">${student.reg}</td>
+            <td style="border:1px solid #ccc; padding:4px;">${student.name}</td>
+            <td style="border:1px solid #ccc; padding:4px;">${student.degree}</td>
+            <td style="border:1px solid #ccc; padding:4px;">${student.ts}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+    });
+}
+
+function dbCreate() {
+    studentDB = []; // Reset DB
+    alert("Database 'university.db' created!");
+    renderTable(studentDB);
+}
+
+function dbInsert() {
+    const reg = document.getElementById('dbReg').value;
+    const name = document.getElementById('dbName').value;
+    const city = document.getElementById('dbCity').value;
+    const degree = document.getElementById('dbDegree').value;
+
+    if(!reg || !name) {
+        alert("Reg # and Name are required.");
+        return;
+    }
+
+    const ts = new Date().toLocaleString();
+    studentDB.push({ reg, name, city, degree, ts });
+    renderTable(studentDB);
+}
+
+function dbRefresh() {
+    renderTable(studentDB);
+}
+
+function dbSearch() {
+    const reg = document.getElementById('dbReg').value;
+    const found = studentDB.filter(s => s.reg === reg);
+    renderTable(found);
+}
+
+function dbDelete() {
+    const reg = document.getElementById('dbReg').value;
+    const initialLen = studentDB.length;
+    studentDB = studentDB.filter(s => s.reg !== reg);
+
+    if(studentDB.length < initialLen) {
+        renderTable(studentDB);
+    } else {
+        alert("Reg # not found.");
+    }
+}
+
+function dbUpdate() {
+    const reg = document.getElementById('dbReg').value;
+    const name = document.getElementById('dbName').value;
+
+    const idx = studentDB.findIndex(s => s.reg === reg);
+
+    if (idx !== -1 && name) {
+        studentDB[idx].name = name;
+        renderTable(studentDB);
+    } else {
+        alert("Reg # not found or Name is empty.");
+    }
+}
