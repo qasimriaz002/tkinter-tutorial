@@ -1,0 +1,209 @@
+<!-- Slide 38: Firebase Realtime DB & GUI -->
+<section class="slide" id="slide-38">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Firebase Realtime DB Connection with Python</h2>
+            <p>Connecting a Python application to the Firebase Realtime Database allows you to perform CRUD (Create, Read, Update, Delete) operations in real-time. To achieve this securely, the official <code>firebase-admin</code> SDK is the best choice.</p>
+
+            <h3>1. Prerequisites and Setup</h3>
+            <p>Before writing the code, you need to set up your Firebase console and install the required Python package.</p>
+
+            <h4>Step A: Install the Firebase Admin SDK</h4>
+            <div class="code-window" style="margin: 5px 0 10px 0; font-size: 0.75rem; height: 50px;">
+                <div class="code-content" style="margin-top:0;">pip install firebase-admin</div>
+            </div>
+
+            <h4>Step B: Download Service Account Credentials</h4>
+            <ol style="font-size: 0.85rem; margin-left: 1.2rem;">
+                <li>Go to the <strong>Firebase Console</strong>.</li>
+                <li>Select your project.</li>
+                <li>Click the gear icon (<strong>Project settings</strong>).</li>
+                <li>Navigate to the <strong>Service accounts</strong> tab.</li>
+                <li>Click <strong>Generate new private key</strong>. Rename the downloaded file to <code>serviceAccountKey.json</code>.</li>
+            </ol>
+
+            <h4>Step C: Get your Database URL</h4>
+            <p>In the Firebase Console, go to <strong>Realtime Database</strong> and copy the database URL (e.g., <code>https://your-database-name.firebaseio.com/</code>).</p>
+
+            <h3>2. Code Explanations</h3>
+            <ul style="font-size: 0.85rem;">
+                <li><strong>Initialization:</strong> <code>credentials.Certificate("...")</code> loads your private key. <code>initialize_app</code> establishes the session.</li>
+                <li><strong>The Reference Model:</strong> Firebase is a JSON tree. <code>db.reference('users')</code> targets the specific path.</li>
+                <li><strong>Methods:</strong>
+                    <ul>
+                        <li><code>.set(data):</code> Overwrites data at the path.</li>
+                        <li><code>.push(data):</code> Adds data with a unique, auto-generated ID.</li>
+                        <li><code>.get():</code> Pulls data as a Python dictionary.</li>
+                        <li><code>.update(dict):</code> Updates only specified keys without deleting others.</li>
+                        <li><code>.child(key).set(value):</code> <strong>Add Child:</strong> Adds a new specific child node at a defined path without generating a unique ID (e.g., adding a "Phone" field to an existing user).</li>
+                        <li><code>.delete():</code> Removes the node entirely.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>3. GUI Interaction Logic</h3>
+            <ul style="font-size: 0.85rem;">
+                <li><strong>Path-Based Navigation:</strong> In the GUI, operations are performed by defining the "Path" (e.g., <code>users/kashif089/City</code>).</li>
+                <li><strong>Auto vs Manual ID:</strong> "Push" generates a random key. "Set" at a specific child path uses a defined key.</li>
+                <li><strong>Live Syncing:</strong> Every operation triggers a refresh to update the Visual Tree.</li>
+            </ul>
+        </div>
+
+        <div class="right-col">
+            <!-- INTEGRATED SIMULATOR -->
+            <div style="background: var(--bg-slide); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 20px; box-shadow: var(--shadow);">
+                <!-- Simulator Header -->
+                <div style="background: #1565c0; color: white; padding: 8px 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+                    <span>Firebase Realtime Database Tree Simulator</span>
+                    <span style="font-size: 0.8rem; opacity: 0.8;">Live Demo</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; height: 450px;">
+
+                    <!-- LEFT PANEL: Tree View -->
+                    <div style="background: white; padding: 15px; overflow: auto; border-right: 1px solid #ddd;" id="sim-tree-container">
+                        <!-- Tree renders here -->
+                    </div>
+
+                    <!-- RIGHT PANEL: Controls -->
+                    <div style="background: #f9f9f9; padding: 15px; overflow: auto;">
+
+                        <!-- Section 1 -->
+                        <div style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
+                            <h4 style="color:#1565c0; margin-bottom:5px; font-size:0.9rem;">1. Add Node (Auto ID)</h4>
+                            <input type="text" id="autoParent" class="tk-entry" placeholder="Parent Path: users/john123/profile" style="margin-bottom: 5px;">
+                            <button class="tk-btn" style="background:#1976d2; color:white; width:100%;" onclick="addAutoNode()">Add Auto Node</button>
+                            <div class="code-window" style="font-size: 0.65rem; margin-top:5px;">
+                                <div class="code-content" style="margin-top:0;">ref = db.reference('users/john123/profile')
+new_ref = ref.push({'key':'value'})</div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2 -->
+                        <div style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
+                            <h4 style="color:#1565c0; margin-bottom:5px; font-size:0.9rem;">2. Add Node (Manual ID)</h4>
+                            <input type="text" id="manualParent" class="tk-entry" placeholder="Parent Path" style="margin-bottom: 5px;">
+                            <input type="text" id="manualId" class="tk-entry" placeholder="Manual Node ID" style="margin-bottom: 5px;">
+                            <button class="tk-btn" style="background:#2e7d32; color:white; width:100%;" onclick="addManualNode()">Add Manual Node</button>
+                            <div class="code-window" style="font-size: 0.65rem; margin-top:5px;">
+                                <div class="code-content" style="margin-top:0;">ref.child('student01').set({'name':'Ali'})</div>
+                            </div>
+                        </div>
+
+                        <!-- Section 3 -->
+                        <div style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
+                            <h4 style="color:#1565c0; margin-bottom:5px; font-size:0.9rem;">3. Add Key Value Pair</h4>
+                            <input type="text" id="addPath" class="tk-entry" placeholder="Node Path" style="margin-bottom: 5px;">
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px; margin-bottom:5px;">
+                                <input type="text" id="addKey" class="tk-entry" placeholder="Key">
+                                <input type="text" id="addValue" class="tk-entry" placeholder="Value">
+                            </div>
+                            <button class="tk-btn" style="background:#6a1b9a; color:white; width:100%;" onclick="addKeyValue()">Add Key Value</button>
+                            <div class="code-window" style="font-size: 0.65rem; margin-top:5px;">
+                                <div class="code-content" style="margin-top:0;">ref.update({'age':'22'})</div>
+                            </div>
+                        </div>
+
+                        <!-- Section 4 -->
+                        <div style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
+                            <h4 style="color:#1565c0; margin-bottom:5px; font-size:0.9rem;">4. Update Value</h4>
+                            <input type="text" id="updatePath" class="tk-entry" placeholder="Node Path" style="margin-bottom: 5px;">
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px; margin-bottom:5px;">
+                                <input type="text" id="updateKey" class="tk-entry" placeholder="Key">
+                                <input type="text" id="updateValue" class="tk-entry" placeholder="New Value">
+                            </div>
+                            <button class="tk-btn" style="background:#ef6c00; color:white; width:100%;" onclick="updateValueFunction()">Update Value</button>
+                            <div class="code-window" style="font-size: 0.65rem; margin-top:5px;">
+                                <div class="code-content" style="margin-top:0;">ref.update({'firstname':'Johnny'})</div>
+                            </div>
+                        </div>
+
+                        <!-- Section 5 -->
+                        <div style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
+                            <h4 style="color:#1565c0; margin-bottom:5px; font-size:0.9rem;">5. Delete Key</h4>
+                            <input type="text" id="deletePath" class="tk-entry" placeholder="Node Path" style="margin-bottom: 5px;">
+                            <input type="text" id="deleteKey" class="tk-entry" placeholder="Key To Delete" style="margin-bottom: 5px;">
+                            <button class="tk-btn" style="background:#c62828; color:white; width:100%;" onclick="deleteKeyFunction()">Delete Key</button>
+                        </div>
+
+                        <!-- Section 6 -->
+                        <div>
+                            <h4 style="color:#1565c0; margin-bottom:5px; font-size:0.9rem;">6. Delete Complete Node</h4>
+                            <input type="text" id="deleteNodePath" class="tk-entry" placeholder="Complete Node Path" style="margin-bottom: 5px;">
+                            <button class="tk-btn" style="background:#212121; color:white; width:100%;" onclick="deleteNodeFunction()">Delete Node</button>
+                            <div class="code-window" style="font-size: 0.65rem; margin-top:5px;">
+                                <div class="code-content" style="margin-top:0;">ref.child('john123').delete()</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- STYLES FOR TREE (SCOPED) -->
+            <style>
+                /* Simulator Tree Specific CSS */
+                .tree-node {
+                    margin-left: 20px;
+                    margin-top: 5px;
+                }
+                .node-label {
+                    cursor: pointer;
+                    display: inline-block;
+                    padding: 2px 5px;
+                    border-radius: 4px;
+                    font-family: var(--font-mono);
+                    font-size: 12px;
+                    user-select: none;
+                }
+                .node-label:hover {
+                    background: #e3f2fd;
+                }
+                .children {
+                    margin-left: 20px;
+                    border-left: 2px dashed #aaa;
+                    padding-left: 15px;
+                }
+                .hidden {
+                    display: none;
+                }
+                .path {
+                    color: #999;
+                    font-size: 10px;
+                    margin-left: 5px;
+                    font-weight: normal !important;
+                }
+            </style>
+
+            <!-- Python Code Snippet 1 -->
+            <h3 style="font-size:0.9rem; margin: 10px 0;">Python Path-Based Implementation</h3>
+            <div class="code-window" style="height: 120px; overflow-y: auto;">
+                <div class="code-content" style="font-size: 0.7rem;"><span class="kw">import</span> firebase_admin
+<span class="kw">from</span> firebase_admin <span class="kw">import</span> credentials, db
+
+<span class="com"># INIT</span>
+users_ref = db.reference(<span class="str">'users'</span>)
+
+<span class="com"># 1. CREATE (Root Node)</span>
+<span class="kw">def</span> <span class="func">create_node</span>(key, value):
+    users_ref.child(key).set(value)
+
+<span class="com"># 2. INSERT (Child Node)</span>
+<span class="kw">def</span> <span class="func">insert_child</span>(parent_path, key, value, auto_id=<span class="kw">False</span>):
+    ref = db.reference(parent_path)
+    <span class="kw">if</span> auto_id:
+        ref.push(value)
+    <span class="kw">else</span>:
+        ref.child(key).set(value)
+
+<span class="com"># 3. UPDATE (Path Based)</span>
+<span class="kw">def</span> <span class="func">update_node</span>(full_path, value):
+    db.reference(full_path).set(value)
+
+<span class="com"># 4. DELETE (Path Based)</span>
+<span class="kw">def</span> <span class="func">delete_node</span>(full_path):
+    db.reference(full_path).delete()</div>
+            </div>
+        </div>
+    </div>
+</section>

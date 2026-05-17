@@ -44,6 +44,7 @@ const SLIDE_DATA = [
     { module: 'Database & GUI',           title: 'SQLite Database & GUI'            },
     { module: 'Database & GUI',           title: 'Postgres Database & GUI'          },
     { module: 'Database & GUI',           title: 'No-SQL Databases & Concepts'      },
+    { module: 'Database & GUI',           title: 'Firebase Realtime DB Connection with Python'      },
 ];
 
 /* =========================

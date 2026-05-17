@@ -380,3 +380,198 @@ function pgUpdate() {
         pgRender(pgDB);
     }
 }
+/* ── Slide 38: Firebase Realtime Database Simulator Logic ───────────────────────────────── */
+
+// Initial Database Structure
+let database = {
+    users:{
+        john123:{
+            profile:{
+                firstname:'John',
+                lastname:'Smith',
+                address:{
+                    city:'New York',
+                    country:'USA'
+                }
+            },
+            contact:{
+                email:'john@gmail.com',
+                phone:'111222333'
+            }
+        },
+        emma456:{
+            profile:{
+                firstname:'Emma',
+                lastname:'Watson',
+                address:{
+                    city:'London',
+                    country:'UK'
+                }
+            },
+            courses:{
+                course1:'Web Development',
+                course2:'Database Systems'
+            }
+        }
+    },
+    college:{
+        departments:{
+            cs:{
+                students:{
+                    std01:{
+                        name:'Ali',
+                        semester:'5th'
+                    },
+                    std02:{
+                        name:'Sara',
+                        semester:'6th'
+                    }
+                }
+            }
+        }
+    }
+};
+
+function generateAutoId(){
+    return 'node_' + Math.random().toString(36).substring(2,10);
+}
+
+function getReference(path){
+    let parts = path.split('/').filter(Boolean);
+    let current = database;
+    for(let part of parts){
+        if(current[part] === undefined){
+            return null;
+        }
+        current = current[part];
+    }
+    return current;
+}
+
+function setReference(path, value){
+    let parts = path.split('/').filter(Boolean);
+    let current = database;
+    for(let i=0; i<parts.length-1; i++){
+        if(!current[parts[i]]){
+            current[parts[i]] = {};
+        }
+        current = current[parts[i]];
+    }
+    current[parts[parts.length-1]] = value;
+}
+
+function deleteReference(path){
+    let parts = path.split('/').filter(Boolean);
+    let current = database;
+    for(let i=0; i<parts.length-1; i++){
+        if(!current[parts[i]]) return;
+        current = current[parts[i]];
+    }
+    delete current[parts[parts.length-1]];
+}
+
+function renderTree(data, parent, path=''){
+    parent.innerHTML = '';
+    for(let key in data){
+        let fullPath = path ? path + '/' + key : key;
+        let node = document.createElement('div');
+        node.className = 'tree-node';
+        let label = document.createElement('div');
+        label.className = 'node-label';
+
+        if(typeof data[key] === 'object' && data[key] !== null){
+            label.innerHTML = '📁 <b>' + key + '</b> <span class="path">(' + fullPath + ')</span>';
+        } else {
+            label.innerHTML = '📄 <b>' + key + '</b> : ' + data[key] + ' <span class="path">(' + fullPath + ')</span>';
+        }
+        node.appendChild(label);
+
+        if(typeof data[key] === 'object' && data[key] !== null){
+            let children = document.createElement('div');
+            children.className = 'children';
+            renderTree(data[key], children, fullPath);
+            label.onclick = function(){
+                children.classList.toggle('hidden');
+            }
+            node.appendChild(children);
+        }
+        parent.appendChild(node);
+    }
+}
+
+function refreshTree(){
+    renderTree(database, document.getElementById('sim-tree-container'));
+}
+
+// --- Simulator Handlers ---
+
+function addAutoNode(){
+    let parentPath = document.getElementById('autoParent').value;
+    let parent = getReference(parentPath);
+    if(parent == null || typeof parent !== 'object'){
+        alert('Invalid Parent Path');
+        return;
+    }
+    let id = generateAutoId();
+    parent[id] = { sampleKey:'sampleValue' };
+    refreshTree();
+}
+
+function addManualNode(){
+    let parentPath = document.getElementById('manualParent').value;
+    let id = document.getElementById('manualId').value;
+    let parent = getReference(parentPath);
+    if(parent == null || typeof parent !== 'object'){
+        alert('Invalid Parent Path');
+        return;
+    }
+    parent[id] = { sampleKey:'sampleValue' };
+    refreshTree();
+}
+
+function addKeyValue(){
+    let path = document.getElementById('addPath').value;
+    let key = document.getElementById('addKey').value;
+    let value = document.getElementById('addValue').value;
+    let ref = getReference(path);
+    if(ref == null || typeof ref !== 'object'){
+        alert('Invalid Path');
+        return;
+    }
+    ref[key] = value;
+    refreshTree();
+}
+
+function updateValueFunction(){
+    let path = document.getElementById('updatePath').value;
+    let key = document.getElementById('updateKey').value;
+    let value = document.getElementById('updateValue').value;
+    let ref = getReference(path);
+    if(ref == null || typeof ref !== 'object'){
+        alert('Invalid Path');
+        return;
+    }
+    ref[key] = value;
+    refreshTree();
+}
+
+function deleteKeyFunction(){
+    let path = document.getElementById('deletePath').value;
+    let key = document.getElementById('deleteKey').value;
+    let ref = getReference(path);
+    if(ref == null || typeof ref !== 'object'){
+        alert('Invalid Path');
+        return;
+    }
+    delete ref[key];
+    refreshTree();
+}
+
+function deleteNodeFunction(){
+    let path = document.getElementById('deleteNodePath').value;
+    deleteReference(path);
+    refreshTree();
+}
+
+// Initialize the tree on page load
+refreshTree();
