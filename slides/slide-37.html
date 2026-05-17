@@ -1,0 +1,180 @@
+<!-- Slide 37: No-SQL Databases & Concepts -->
+<section class="slide" id="slide-37">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>No-SQL Databases & Concepts</h2>
+
+            <h3>1. What is No-SQL?</h3>
+            <p><strong>Not Only SQL</strong>. No-SQL databases provide a mechanism for storage and retrieval of data that is modeled in means other than the tabular relations used in relational databases. They are optimized for specific data models and access patterns.</p>
+
+            <h3>2. Need for No-SQL?</h3>
+            <ul>
+                <li><strong>Unstructured Data:</strong> Social media feeds, IoT logs, and chat logs don't fit well into rigid tables.</li>
+                <li><strong>Scalability:</strong> They scale <strong>horizontally</strong> (adding more servers) easily, whereas SQL often scales <strong>vertically</strong> (adding more power to one server).</li>
+                <li><strong>Speed:</strong> High performance for simple read/write operations without complex joins.</li>
+            </ul>
+
+            <h3>3. Difference B/W SQL and No-SQL</h3>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.8rem; background:#f0f0f0; padding:10px; border-radius:5px;">
+                <div>
+                    <strong>SQL (Relational)</strong><br>
+                    - Tables & Rows<br>
+                    - Fixed Schema<br>
+                    - Vertically Scalable<br>
+                    - ACID Properties
+                </div>
+                <div>
+                    <strong>No-SQL (Non-Relational)</strong><br>
+                    - Documents / Key-Value / Graph<br>
+                    - Dynamic / Schema-less<br>
+                    - Horizontally Scalable<br>
+                    - BASE Properties (Eventual Consistency)
+                </div>
+            </div>
+
+            <h3>4. Tree Structure (JSON)</h3>
+            <p>Unlike SQL tables, NoSQL (like Firebase or MongoDB) often stores data as a tree of nodes or JSON documents.</p>
+            <!-- Pictorial Representation of Tree -->
+            <svg width="100%" height="120" viewBox="0 0 300 120">
+                <rect x="110" y="10" width="80" height="30" rx="5" fill="#0071e3" stroke="#333"/>
+                <text x="150" y="30" text-anchor="middle" fill="white" font-size="12" font-family="sans-serif">root</text>
+
+                <line x1="150" y1="40" x2="150" y2="55" stroke="#333" stroke-width="2"/>
+
+                <rect x="50" y="55" width="80" height="30" rx="5" fill="#fff" stroke="#333"/>
+                <text x="90" y="75" text-anchor="middle" fill="#333" font-size="10" font-family="sans-serif">users</text>
+
+                <rect x="170" y="55" width="80" height="30" rx="5" fill="#fff" stroke="#333"/>
+                <text x="210" y="75" text-anchor="middle" fill="#333" font-size="10" font-family="sans-serif">products</text>
+
+                <!-- Expanding nodes -->
+                <line x1="90" y1="85" x2="90" y2="95" stroke="#333" stroke-width="1"/>
+                <line x1="90" y1="95" x2="70" y2="105" stroke="#333" stroke-width="1"/>
+                <line x1="90" y1="95" x2="110" y2="105" stroke="#333" stroke-width="1"/>
+
+                <rect x="50" y="105" width="40" height="15" fill="#eee" stroke="#999"/>
+                <text x="70" y="116" text-anchor="middle" font-size="8">id:1</text>
+                <rect x="110" y="105" width="40" height="15" fill="#eee" stroke="#999"/>
+                <text x="130" y="116" text-anchor="middle" font-size="8">id:2</text>
+            </svg>
+
+            <h3>5. Key Concepts</h3>
+            <p><strong>Schema-less:</strong> You don't need to pre-define columns. <strong>Document Store:</strong> Data is stored as JSON documents (e.g., MongoDB). <strong>Real-time Sync:</strong> Listeners update data instantly when it changes on the server (e.g., Firebase).</p>
+
+            <h3>6. Types of No-SQL</h3>
+            <ul style="font-size:0.85rem;">
+                <li><strong>Document:</strong> MongoDB, CouchDB (Stores JSON).</li>
+                <li><strong>Key-Value:</strong> Redis, DynamoDB (Fast lookups).</li>
+                <li><strong>Column-family:</strong> Cassandra (Wide columns).</li>
+                <li><strong>Graph:</strong> Neo4j (Relationships).</li>
+            </ul>
+
+            <h3>7. Most Used No-SQL Databases</h3>
+            <div style="display:flex; gap:10px; justify-content:space-between; font-size:0.8rem;">
+                <div style="text-align:center;">🍃<br>MongoDB</div>
+                <div style="text-align:center;">🔥<br>Firebase</div>
+                <div style="text-align:center;">☁️<br>DynamoDB</div>
+                <div style="text-align:center;">⚡<br>Redis</div>
+            </div>
+        </div>
+
+        <div class="right-col">
+            <!-- 8. Python & NoSQL Pipeline Diagram -->
+            <h3>8. Python & No-SQL Connection</h3>
+            <div style="background:white; padding:10px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px;">
+                <svg width="100%" height="80" viewBox="0 0 300 80">
+                    <rect x="10" y="20" width="70" height="40" fill="#FFD700" stroke="#333" rx="5"/>
+                    <text x="45" y="45" text-anchor="middle" font-size="10" font-weight="bold">Python</text>
+
+                    <rect x="100" y="20" width="100" height="40" fill="#0071e3" stroke="#333" rx="5"/>
+                    <text x="150" y="35" text-anchor="middle" fill="white" font-size="9">SDK / Driver</text>
+                    <text x="150" y="50" text-anchor="middle" fill="white" font-size="8">(firebase_admin)</text>
+
+                    <ellipse cx="260" cy="40" rx="30" ry="40" fill="#FFA500" stroke="#333"/>
+                    <text x="260" y="35" text-anchor="middle" font-size="9" font-weight="bold">Cloud DB</text>
+                    <text x="260" y="50" text-anchor="middle" font-size="8">(Firebase)</text>
+
+                    <path d="M 80 40 L 90 40" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                    <path d="M 200 40 L 220 40" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+                    <text x="150" y="10" text-anchor="middle" font-size="9" fill="#666">API / HTTP Requests</text>
+
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#333" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+
+             <!-- 9. Service Account Key (key.json) -->
+            <h3>9. Service Account & Key.json</h3>
+            <p style="font-size:0.85rem;">To connect Python to Firebase securely, we use a <strong>Service Account Key</strong> (JSON file). It contains credentials that authorize your script to access the database as an administrator.</p>
+
+            <div style="display:flex; gap:10px; margin-bottom:10px;">
+                <!-- Key.json Visual -->
+                <div style="flex:1;">
+                    <div class="code-window" style="font-size:0.7rem; height:200px; overflow-y: auto;">
+                        <div class="code-content" style="margin-top:0;">{
+  "type": "service_account",
+  "project_id": "my-app-id",
+  "private_key_id": "...",
+  "private_key": "-----BEGIN ...",
+  "client_email": "admin@...",
+  "client_id": "...",
+  "auth_uri": "...",
+  "token_uri": "..."
+}</div>
+                    </div>
+                </div>
+                <!-- Key Pipeline Visual -->
+                <div style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; border:1px dashed #ccc; padding:5px; border-radius:5px;">
+                    <div style="font-size:0.8rem; margin-bottom:5px;">Auth Pipeline</div>
+                    <div style="font-weight:bold; color:#0071e3;">Python Script</div>
+                    <div style="font-size:20px;">⬇</div>
+                    <div style="font-weight:bold; color:#333;">key.json</div>
+                    <div style="font-size:20px;">⬇</div>
+                    <div style="font-weight:bold; color:#FFA500;">Firebase Access</div>
+                </div>
+            </div>
+
+            <!-- 10. Firebase Python Example -->
+            <h3>10. Firebase Realtime DB Example</h3>
+            <div class="code-window">
+                <div class="code-content" style="font-size:0.8rem;"><span class="kw">import</span> firebase_admin
+<span class="kw">from</span> firebase_admin <span class="kw">import</span> credentials, db
+
+<span class="com"># Initialize the App with key.json</span>
+cred = credentials.Certificate(<span class="str">"serviceAccountKey.json"</span>)
+firebase_admin.initialize_app(cred, {
+    <span class="str">'databaseURL'</span>: <span class="str">'https://my-app.firebaseio.com'</span>
+})
+
+<span class="com"># Reference the database</span>
+ref = db.reference(<span class="str">'users'</span>)
+
+<span class="com"># INSERT: Push new data</span>
+ref.push({
+    <span class="str">'name'</span>: <span class="str">'John Doe'</span>,
+    <span class="str">'age'</span>: <span class="num">30</span>
+})
+
+<span class="com"># RETRIEVE: Get all data</span>
+users = ref.get()
+<span class="kw">for</span> key, user <span class="kw">in</span> users.items():
+    <span class="kw">print</span>(user[<span class="str">'name'</span>])</div>
+            </div>
+
+            <!-- Code Explanation -->
+            <div style="margin-top: 20px;">
+                <h3 style="font-size: 0.9rem; margin-bottom: 5px; color: var(--text-primary);">Code Explanation:</h3>
+                <div style="background: var(--tkinter-blue); padding: 10px; border-radius: 8px; border-left: 4px solid var(--accent); font-size: 0.85rem;">
+                    <p><strong>1. Credentials:</strong> <code>credentials.Certificate("key.json")</code> loads the private key from the file to generate an authentication token.</p>
+                    <p><strong>2. Initialization:</strong> <code>initialize_app</code> creates the connection to the specific database URL.</p>
+                    <p><strong>3. Reference:</strong> <code>db.reference('users')</code> points to the specific "node" in the database tree (similar to a folder path).</p>
+                    <p><strong>4. Operations:</strong> <code>push()</code> adds a new record with a unique key. <code>get()</code> fetches the snapshot of the data at that node.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

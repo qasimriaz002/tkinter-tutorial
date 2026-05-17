@@ -43,6 +43,7 @@ const SLIDE_DATA = [
     { module: 'Database & GUI',           title: 'Database Basic & SQL'             },
     { module: 'Database & GUI',           title: 'SQLite Database & GUI'            },
     { module: 'Database & GUI',           title: 'Postgres Database & GUI'          },
+    { module: 'Database & GUI',           title: 'No-SQL Databases & Concepts'      },
 ];
 
 /* =========================
