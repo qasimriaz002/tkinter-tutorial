@@ -35,7 +35,7 @@
                         <li><code>.push(data):</code> Adds data with a unique, auto-generated ID.</li>
                         <li><code>.get():</code> Pulls data as a Python dictionary.</li>
                         <li><code>.update(dict):</code> Updates only specified keys without deleting others.</li>
-                        <li><code>.child(key).set(value):</code> <strong>Add Child:</strong> Adds a new specific child node at a defined path without generating a unique ID (e.g., adding a "Phone" field to an existing user).</li>
+                        <li><code>.child(key).set(value):</code> <strong>Add Child:</strong> Adds a new specific child node at a defined path without generating a unique ID.</li>
                         <li><code>.delete():</code> Removes the node entirely.</li>
                     </ul>
                 </li>
@@ -66,12 +66,12 @@
                     </div>
 
                     <!-- RIGHT PANEL: Controls -->
-                    <div style="background: #f9f9f9; padding: 15px; overflow: auto;">
+                    <div style="background: #f9f9f9; padding: 15px; overflow: auto; position: relative;">
 
                         <!-- Section 1 -->
                         <div style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
                             <h4 style="color:#1565c0; margin-bottom:5px; font-size:0.9rem;">1. Add Node (Auto ID)</h4>
-                            <input type="text" id="autoParent" class="tk-entry" placeholder="Parent Path: users/john123/profile" style="margin-bottom: 5px;">
+                            <input type="text" id="autoParent" class="tk-entry autocomplete-path" placeholder="Parent Path: users/john123/profile" style="margin-bottom: 5px;">
                             <button class="tk-btn" style="background:#1976d2; color:white; width:100%;" onclick="addAutoNode()">Add Auto Node</button>
                             <div class="code-window" style="font-size: 0.65rem; margin-top:5px;">
                                 <div class="code-content" style="margin-top:0;">ref = db.reference('users/john123/profile')
@@ -82,7 +82,7 @@ new_ref = ref.push({'key':'value'})</div>
                         <!-- Section 2 -->
                         <div style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
                             <h4 style="color:#1565c0; margin-bottom:5px; font-size:0.9rem;">2. Add Node (Manual ID)</h4>
-                            <input type="text" id="manualParent" class="tk-entry" placeholder="Parent Path" style="margin-bottom: 5px;">
+                            <input type="text" id="manualParent" class="tk-entry autocomplete-path" placeholder="Parent Path" style="margin-bottom: 5px;">
                             <input type="text" id="manualId" class="tk-entry" placeholder="Manual Node ID" style="margin-bottom: 5px;">
                             <button class="tk-btn" style="background:#2e7d32; color:white; width:100%;" onclick="addManualNode()">Add Manual Node</button>
                             <div class="code-window" style="font-size: 0.65rem; margin-top:5px;">
@@ -93,7 +93,7 @@ new_ref = ref.push({'key':'value'})</div>
                         <!-- Section 3 -->
                         <div style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
                             <h4 style="color:#1565c0; margin-bottom:5px; font-size:0.9rem;">3. Add Key Value Pair</h4>
-                            <input type="text" id="addPath" class="tk-entry" placeholder="Node Path" style="margin-bottom: 5px;">
+                            <input type="text" id="addPath" class="tk-entry autocomplete-path" placeholder="Node Path" style="margin-bottom: 5px;">
                             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px; margin-bottom:5px;">
                                 <input type="text" id="addKey" class="tk-entry" placeholder="Key">
                                 <input type="text" id="addValue" class="tk-entry" placeholder="Value">
@@ -107,7 +107,7 @@ new_ref = ref.push({'key':'value'})</div>
                         <!-- Section 4 -->
                         <div style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
                             <h4 style="color:#1565c0; margin-bottom:5px; font-size:0.9rem;">4. Update Value</h4>
-                            <input type="text" id="updatePath" class="tk-entry" placeholder="Node Path" style="margin-bottom: 5px;">
+                            <input type="text" id="updatePath" class="tk-entry autocomplete-path" placeholder="Node Path" style="margin-bottom: 5px;">
                             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px; margin-bottom:5px;">
                                 <input type="text" id="updateKey" class="tk-entry" placeholder="Key">
                                 <input type="text" id="updateValue" class="tk-entry" placeholder="New Value">
@@ -121,7 +121,7 @@ new_ref = ref.push({'key':'value'})</div>
                         <!-- Section 5 -->
                         <div style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
                             <h4 style="color:#1565c0; margin-bottom:5px; font-size:0.9rem;">5. Delete Key</h4>
-                            <input type="text" id="deletePath" class="tk-entry" placeholder="Node Path" style="margin-bottom: 5px;">
+                            <input type="text" id="deletePath" class="tk-entry autocomplete-path" placeholder="Node Path" style="margin-bottom: 5px;">
                             <input type="text" id="deleteKey" class="tk-entry" placeholder="Key To Delete" style="margin-bottom: 5px;">
                             <button class="tk-btn" style="background:#c62828; color:white; width:100%;" onclick="deleteKeyFunction()">Delete Key</button>
                         </div>
@@ -129,18 +129,23 @@ new_ref = ref.push({'key':'value'})</div>
                         <!-- Section 6 -->
                         <div>
                             <h4 style="color:#1565c0; margin-bottom:5px; font-size:0.9rem;">6. Delete Complete Node</h4>
-                            <input type="text" id="deleteNodePath" class="tk-entry" placeholder="Complete Node Path" style="margin-bottom: 5px;">
+                            <input type="text" id="deleteNodePath" class="tk-entry autocomplete-path" placeholder="Complete Node Path" style="margin-bottom: 5px;">
                             <button class="tk-btn" style="background:#212121; color:white; width:100%;" onclick="deleteNodeFunction()">Delete Node</button>
                             <div class="code-window" style="font-size: 0.65rem; margin-top:5px;">
                                 <div class="code-content" style="margin-top:0;">ref.child('john123').delete()</div>
                             </div>
                         </div>
 
+                        <!-- Autocomplete Dropdown (Hidden by default) -->
+                        <div id="autocomplete-list" style="display:none; border:1px solid #ddd; border-top:none; max-height:150px; overflow-y:auto; background:white; position:absolute; width:100%; z-index:1000; box-shadow:0 4px 6px rgba(0,0,0,0.1);"></div>
                     </div>
                 </div>
+
+                <!-- Toast Container -->
+                <div id="toast-container" style="position:absolute; bottom:20px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:10px;"></div>
             </div>
 
-            <!-- STYLES FOR TREE (SCOPED) -->
+            <!-- STYLES FOR TREE & EFFECTS -->
             <style>
                 /* Simulator Tree Specific CSS */
                 .tree-node {
@@ -173,37 +178,197 @@ new_ref = ref.push({'key':'value'})</div>
                     margin-left: 5px;
                     font-weight: normal !important;
                 }
+
+                /* Flashing Animation */
+                @keyframes flash {
+                    0% { background-color: #ffd700; }
+                    50% { background-color: #fff176; }
+                    100% { background-color: transparent; }
+                }
+                .flashing-node {
+                    animation: flash 1s ease-in-out infinite;
+                }
+
+                /* Toast Notifications */
+                .toast {
+                    background: #333;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    font-size: 0.85rem;
+                    animation: slideIn 0.3s ease-out forwards;
+                    opacity: 0.9;
+                    display: flex;
+                    align-items: center;
+                }
+                .toast.success { border-left: 5px solid #4CAF50; }
+                .toast.error { border-left: 5px solid #f44336; }
+
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+
+                /* Autocomplete Items */
+                .autocomplete-item {
+                    padding: 8px 12px;
+                    cursor: pointer;
+                    border-bottom: 1px solid #f0f0f0;
+                    font-size: 0.85rem;
+                    font-family: var(--font-mono);
+                }
+                .autocomplete-item:hover { background: #f0f0f0; }
             </style>
 
             <!-- Python Code Snippet 1 -->
             <h3 style="font-size:0.9rem; margin: 10px 0;">Python Path-Based Implementation</h3>
-            <div class="code-window" style="height: 120px; overflow-y: auto;">
+            <div class="code-window" style="height: 500px; overflow-y: auto;">
                 <div class="code-content" style="font-size: 0.7rem;"><span class="kw">import</span> firebase_admin
-<span class="kw">from</span> firebase_admin <span class="kw">import</span> credentials, db
+<span class="kw">from</span> firebase_admin <span class="kw">import</span> credentials
+<span class="kw">from</span> firebase_admin <span class="kw">import</span> db
 
-<span class="com"># INIT</span>
+<span class="com"># ==========================================</span>
+<span class="com"># 1. INITIALIZATION & CONNECTION</span>
+<span class="com"># ==========================================</span>
+
+<span class="com"># Path to your downloaded service account JSON file</span>
+cred = credentials.Certificate(<span class="str">"serviceAccountKey.json"</span>)
+
+<span class="com"># Initialize the app with a service account, granting admin privileges</span>
+firebase_admin.initialize_app(cred, {
+    <span class="str">'databaseURL'</span>: <span class="str">'https://your-database-name.firebaseio.com/'</span>
+})
+
+<span class="com"># Get a reference to the root of your database or a specific node</span>
+<span class="com"># We will use a 'users' node for this example</span>
+root_ref = db.reference(<span class="str">'/'</span>)
 users_ref = db.reference(<span class="str">'users'</span>)
 
-<span class="com"># 1. CREATE (Root Node)</span>
-<span class="kw">def</span> <span class="func">create_node</span>(key, value):
-    users_ref.child(key).set(value)
 
-<span class="com"># 2. INSERT (Child Node)</span>
-<span class="kw">def</span> <span class="func">insert_child</span>(parent_path, key, value, auto_id=<span class="kw">False</span>):
-    ref = db.reference(parent_path)
-    <span class="kw">if</span> auto_id:
-        ref.push(value)
-    <span class="kw">else</span>:
-        ref.child(key).set(value)
+<span class="com"># ==========================================</span>
+<span class="com"># 2. CREATE OPERATIONS</span>
+<span class="com"># ==========================================</span>
 
-<span class="com"># 3. UPDATE (Path Based)</span>
-<span class="kw">def</span> <span class="func">update_node</span>(full_path, value):
-    db.reference(full_path).set(value)
+<span class="kw">def</span> <span class="func">create_user_with_custom_id</span>(user_id, name, email, age):
+    <span class="com">"""</span>
+<span class="com">    Creates or overwrites data at a specific path using set().</span>
+<span class="com">    Use this when you already have a unique identifier (like a username or UUID).</span>
+<span class="com">    """</span>
+    user_data = {
+        <span class="str">'name'</span>: name,
+        <span class="str">'email'</span>: email,
+        <span class="str">'age'</span>: age
+    }
+    <span class="com"># Navigates to 'users/user_id' and sets the data</span>
+    users_ref.child(user_id).set(user_data)
+    <span class="kw">print</span>(<span class="str">f"Successfully created user with ID: {user_id}"</span>)
 
-<span class="com"># 4. DELETE (Path Based)</span>
-<span class="kw">def</span> <span class="func">delete_node</span>(full_path):
-    db.reference(full_path).delete()</div>
+
+<span class="kw">def</span> <span class="func">create_user_with_auto_id</span>(name, email, age):
+    <span class="com">"""</span>
+<span class="com">    Pushes data into the node using push().</span>
+<span class="com">    Firebase automatically generates a unique, timestamp-based ID.</span>
+<span class="com">    """</span>
+    user_data = {
+        <span class="str">'name'</span>: name,
+        <span class="str">'email'</span>: email,
+        <span class="str">'age'</span>: age
+    }
+    <span class="com"># Generates a unique key automatically</span>
+    new_user_ref = users_ref.push(user_data)
+    <span class="kw">print</span>(<span class="str">f"Successfully auto-generated user with ID: {new_user_ref.key}"</span>)
+
+
+<span class="com"># ==========================================</span>
+<span class="com"># 3. READ OPERATIONS</span>
+<span class="com"># ==========================================</span>
+
+<span class="kw">def</span> <span class="func">read_all_users</span>():
+    <span class="com">"""</span>
+<span class="com">    Retrieves all data under the 'users' node using get().</span>
+<span class="com">    """</span>
+    all_users = users_ref.get()
+    <span class="kw">print</span>(<span class="str">"\n--- All Users ---"</span>)
+    <span class="kw">print</span>(all_users)
+    <span class="kw">return</span> all_users
+
+
+<span class="kw">def</span> <span class="func">read_specific_user</span>(user_id):
+    <span class="com">"""</span>
+<span class="com">    Retrieves data for a specific user ID.</span>
+<span class="com">    """</span>
+    user_data = users_ref.child(user_id).get()
+    <span class="kw">print</span>(<span class="str">f"\n--- Data for User {user_id} ---"</span>)
+    <span class="kw">print</span>(user_data)
+    <span class="kw">return</span> user_data
+
+
+<span class="com"># ==========================================</span>
+<span class="com"># 4. UPDATE OPERATIONS</span>
+<span class="com"># ==========================================</span>
+
+<span class="kw">def</span> <span class="func">update_user_fields</span>(user_id, updated_fields):
+    <span class="com">"""</span>
+<span class="com">    Updates specific fields without overwriting the entire object using update().</span>
+<span class="com">    'updated_fields' should be a dictionary, e.g., {'age': 31, 'city': 'New York'}</span>
+<span class="com">    """</span>
+    user_child_ref = users_ref.child(user_id)
+    user_child_ref.update(updated_fields)
+    <span class="kw">print</span>(<span class="str">f"Successfully updated fields for user: {user_id}"</span>)
+
+
+<span class="com"># ==========================================</span>
+<span class="com"># 5. DELETE OPERATIONS</span>
+<span class="com"># ==========================================</span>
+
+<span class="kw">def</span> <span class="func">delete_user</span>(user_id):
+    <span class="com">"""</span>
+<span class="com">    Deletes a specific user node using delete().</span>
+<span class="com">    """</span>
+    users_ref.child(user_id).delete()
+    <span class="kw">print</span>(<span class="str">f"Successfully deleted user: {user_id}"</span>)
+
+
+<span class="com"># ==========================================</span>
+<span class="com"># EXECUTION / TESTING THE CRUD OPERATIONS</span>
+<span class="com"># ==========================================</span>
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    <span class="kw">print</span>(<span class="str">"Starting Firebase Realtime Database Testing...\n"</span>)
+
+    <span class="com"># 1. Testing CREATE</span>
+    <span class="com"># Create users with specific IDs</span>
+    create_user_with_custom_id(<span class="str">"user_001"</span>, <span class="str">"Alice Smith"</span>, <span class="str">"alice@example.com"</span>, <span class="num">28</span>)
+    create_user_with_custom_id(<span class="str">"user_002"</span>, <span class="str">"Bob Jones"</span>, <span class="str">"bob@example.com"</span>, <span class="num">34</span>)
+
+    <span class="com"># Create a user with a Firebase auto-generated ID</span>
+    create_user_with_auto_id(<span class="str">"Charlie Brown"</span>, <span class="str">"charlie@example.com"</span>, <span class="num">22</span>)
+
+    <span class="com"># 2. Testing READ</span>
+    read_all_users()
+    read_specific_user(<span class="str">"user_001"</span>)
+
+    <span class="com"># 3. Testing UPDATE</span>
+    <span class="com"># Update Alice's age and add a new field 'status'</span>
+    update_user_fields(<span class="str">"user_001"</span>, {<span class="str">"age"</span>: <span class="num">29</span>, <span class="str">"status"</span>: <span class="str">"active"</span>})
+    <span class="com"># Verify the update</span>
+    read_specific_user(<span class="str">"user_001"</span>)
+
+    <span class="com"># 4. Testing DELETE</span>
+    <span class="com"># Delete Bob from the database</span>
+    delete_user(<span class="str">"user_002"</span>)
+    <span class="com"># Verify the deletion by reading all users again</span>
+    read_all_users()
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Script to initialize tree on load -->
+    <script>
+        // Small delay to ensure DOM is fully ready after injection
+        setTimeout(() => {
+            if(typeof refreshTree === 'function') refreshTree();
+        }, 100);
+    </script>
 </section>

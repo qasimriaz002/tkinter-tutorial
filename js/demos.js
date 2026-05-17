@@ -432,11 +432,14 @@ let database = {
     }
 };
 
+// --- CORE UTILITIES ---
+
 function generateAutoId(){
     return 'node_' + Math.random().toString(36).substring(2,10);
 }
 
 function getReference(path){
+    if(!path) return database;
     let parts = path.split('/').filter(Boolean);
     let current = database;
     for(let part of parts){
@@ -461,6 +464,7 @@ function setReference(path, value){
 }
 
 function deleteReference(path){
+    if(!path) return;
     let parts = path.split('/').filter(Boolean);
     let current = database;
     for(let i=0; i<parts.length-1; i++){
@@ -470,14 +474,52 @@ function deleteReference(path){
     delete current[parts[parts.length-1]];
 }
 
-function renderTree(data, parent, path=''){
+// --- VISUALS: TOAST & TREE ---
+
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toast-container');
+    if (!container) {
+        // Fallback: create container if not found (e.g. if script runs before HTML)
+        console.warn("Toast container not found");
+        return;
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerText = message;
+
+    container.appendChild(toast);
+
+    // Remove after 3 seconds
+    setTimeout(() => {
+        toast.style.animation = 'slideIn 0.3s reverse forwards';
+        setTimeout(() => {
+            if(toast.parentElement) toast.remove();
+        }, 300);
+    }, 3000);
+}
+
+let flashingPath = null;
+let flashTimeout = null;
+
+function renderTree(data, parent, path='', highlightPath = null){
+    if(!parent) parent = document.getElementById('sim-tree-container');
+    if(!parent) return;
+
     parent.innerHTML = '';
+
     for(let key in data){
         let fullPath = path ? path + '/' + key : key;
         let node = document.createElement('div');
         node.className = 'tree-node';
+
         let label = document.createElement('div');
         label.className = 'node-label';
+
+        // Check if this path should flash
+        if (highlightPath === fullPath) {
+            label.classList.add('flashing-node');
+        }
 
         if(typeof data[key] === 'object' && data[key] !== null){
             label.innerHTML = '📁 <b>' + key + '</b> <span class="path">(' + fullPath + ')</span>';
@@ -489,7 +531,7 @@ function renderTree(data, parent, path=''){
         if(typeof data[key] === 'object' && data[key] !== null){
             let children = document.createElement('div');
             children.className = 'children';
-            renderTree(data[key], children, fullPath);
+            renderTree(data[key], children, fullPath, highlightPath);
             label.onclick = function(){
                 children.classList.toggle('hidden');
             }
@@ -499,22 +541,23 @@ function renderTree(data, parent, path=''){
     }
 }
 
-function refreshTree(){
-    renderTree(database, document.getElementById('sim-tree-container'));
+function refreshTree(highlight = null) {
+    renderTree(database, null, '', highlight);
 }
 
-// --- Simulator Handlers ---
+// --- HANDLERS (Updated with Toasts & Highlighting) ---
 
 function addAutoNode(){
     let parentPath = document.getElementById('autoParent').value;
     let parent = getReference(parentPath);
     if(parent == null || typeof parent !== 'object'){
-        alert('Invalid Parent Path');
+        showToast('Invalid Parent Path', 'error');
         return;
     }
     let id = generateAutoId();
     parent[id] = { sampleKey:'sampleValue' };
-    refreshTree();
+    showToast('Auto Node Added Successfully');
+    refreshTree(parentPath + '/' + id);
 }
 
 function addManualNode(){
@@ -522,11 +565,12 @@ function addManualNode(){
     let id = document.getElementById('manualId').value;
     let parent = getReference(parentPath);
     if(parent == null || typeof parent !== 'object'){
-        alert('Invalid Parent Path');
+        showToast('Invalid Parent Path', 'error');
         return;
     }
     parent[id] = { sampleKey:'sampleValue' };
-    refreshTree();
+    showToast('Manual Node Added Successfully');
+    refreshTree(parentPath + '/' + id);
 }
 
 function addKeyValue(){
@@ -535,11 +579,12 @@ function addKeyValue(){
     let value = document.getElementById('addValue').value;
     let ref = getReference(path);
     if(ref == null || typeof ref !== 'object'){
-        alert('Invalid Path');
+        showToast('Invalid Path', 'error');
         return;
     }
     ref[key] = value;
-    refreshTree();
+    showToast('Key-Value Pair Added');
+    refreshTree(path + '/' + key);
 }
 
 function updateValueFunction(){
@@ -548,11 +593,12 @@ function updateValueFunction(){
     let value = document.getElementById('updateValue').value;
     let ref = getReference(path);
     if(ref == null || typeof ref !== 'object'){
-        alert('Invalid Path');
+        showToast('Invalid Path', 'error');
         return;
     }
     ref[key] = value;
-    refreshTree();
+    showToast('Value Updated Successfully');
+    refreshTree(path + '/' + key);
 }
 
 function deleteKeyFunction(){
@@ -560,18 +606,119 @@ function deleteKeyFunction(){
     let key = document.getElementById('deleteKey').value;
     let ref = getReference(path);
     if(ref == null || typeof ref !== 'object'){
-        alert('Invalid Path');
+        showToast('Invalid Path', 'error');
         return;
     }
-    delete ref[key];
-    refreshTree();
+    if(ref[key] !== undefined){
+        delete ref[key];
+        showToast('Key Deleted Successfully');
+        refreshTree(path); // Flash the parent to show change
+    } else {
+        showToast('Key not found', 'error');
+    }
 }
 
 function deleteNodeFunction(){
     let path = document.getElementById('deleteNodePath').value;
-    deleteReference(path);
-    refreshTree();
+    if(!path) {
+        showToast('Please enter a path', 'error');
+        return;
+    }
+
+    if(confirm(`Are you sure you want to delete ${path}?`)){
+        deleteReference(path);
+        showToast('Node Deleted Successfully');
+
+        // FIX: Calculate Parent Path to flash
+        let parts = path.split('/').filter(Boolean);
+        parts.pop(); // Remove the deleted node
+        let parentPath = parts.join('/');
+
+        refreshTree(parentPath); // Flash the parent
+    }
 }
 
-// Initialize the tree on page load
-refreshTree();
+// --- AUTO COMPLETE LOGIC ---
+
+// Handle Autocomplete for all path inputs
+document.addEventListener('input', function(e) {
+    if(e.target.classList.contains('autocomplete-path')) {
+        const val = e.target.value;
+        const list = document.getElementById('autocomplete-list');
+
+        if(!val) {
+            list.style.display = 'none';
+            return;
+        }
+
+        // Logic: Determine parent based on current input up to the last slash
+        const parts = val.split('/').filter(Boolean);
+        let parent = database;
+        let suggestions = [];
+
+        if(parts.length > 0) {
+            // Traverse to the last known directory
+            for(let i=0; i<parts.length-1; i++){
+                if(parent && parent[parts[i]]) {
+                    parent = parent[parts[i]];
+                } else {
+                    parent = null;
+                    break;
+                }
+            }
+        }
+
+        if(parent && typeof parent === 'object') {
+            const currentTyping = parts.length > 0 ? parts[parts.length-1] : '';
+
+            for(let key in parent) {
+                if(key.toLowerCase().includes(currentTyping.toLowerCase())) {
+                    suggestions.push(key);
+                }
+            }
+        }
+
+        // Render List
+        if(suggestions.length > 0) {
+            list.innerHTML = '';
+            suggestions.forEach(s => {
+                const item = document.createElement('div');
+                item.className = 'autocomplete-item';
+                item.innerText = s;
+
+                // Construct the full path replacing the last part with the suggestion
+                const baseParts = parts.slice(0, parts.length-1);
+                const fullPath = baseParts.length > 0 ? baseParts.join('/') + '/' + s : s;
+
+                item.onclick = function() {
+                    e.target.value = fullPath;
+                    list.style.display = 'none';
+                };
+                list.appendChild(item);
+            });
+            list.style.display = 'block';
+
+            // Position list below input
+            const rect = e.target.getBoundingClientRect();
+            const parentRect = e.target.parentElement.getBoundingClientRect();
+            list.style.top = (e.target.offsetTop + e.target.offsetHeight) + 'px';
+            list.style.left = e.target.offsetLeft + 'px';
+
+        } else {
+            list.style.display = 'none';
+        }
+    }
+});
+
+// Close autocomplete when clicking outside
+document.addEventListener('click', function(e) {
+    const list = document.getElementById('autocomplete-list');
+    if(e.target !== list && !e.target.classList.contains('autocomplete-path')) {
+        list.style.display = 'none';
+    }
+});
+
+// Initial Load (Fallback if script in HTML doesn't catch it immediately)
+setTimeout(() => {
+    refreshTree();
+}, 500);
