@@ -296,3 +296,87 @@ function dbUpdate() {
         alert("Reg # not found or Name is empty.");
     }
 }
+/* ── Slide 36: Postgres Simulation ───────────────────────────────── */
+let pgConnected = false;
+let pgDB = [];
+
+function pgConnect() {
+    const status = document.getElementById('pgStatus');
+    status.innerText = "Connecting to Postgres...";
+    status.style.color = "orange";
+
+    // Simulate network delay
+    setTimeout(() => {
+        pgConnected = true;
+        status.innerText = "Connected via psycopg2 (Postgres Server)";
+        status.style.color = "green";
+        pgRefresh(); // Load initial data
+    }, 1000);
+}
+
+function pgRender(data) {
+    const tbody = document.getElementById('pgTableBody');
+    tbody.innerHTML = '';
+    if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:10px; color:#888;">No records found.</td></tr>';
+        return;
+    }
+    data.forEach(student => {
+        const row = `<tr>
+            <td style="border:1px solid #ccc; padding:4px;">${student.reg}</td>
+            <td style="border:1px solid #ccc; padding:4px;">${student.name}</td>
+            <td style="border:1px solid #ccc; padding:4px;">${student.degree}</td>
+            <td style="border:1px solid #ccc; padding:4px;">${student.ts}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+    });
+}
+
+function pgInsert() {
+    if (!pgConnected) return alert("Please click Connect first!");
+    const reg = document.getElementById('pgReg').value;
+    const name = document.getElementById('pgName').value;
+    const ts = new Date().toLocaleString();
+    if(reg && name) {
+        pgDB.push({ reg, name, degree: "CS", ts });
+        pgRender(pgDB);
+    }
+}
+
+function pgRefresh() {
+    if (!pgConnected) return;
+    // Simulate initial data if empty
+    if(pgDB.length === 0) {
+        pgDB = [
+            {reg: '101', name: 'Alice', degree: 'CS', ts: '10:00 AM'},
+            {reg: '102', name: 'Bob', degree: 'IT', ts: '10:05 AM'}
+        ];
+    }
+    pgRender(pgDB);
+}
+
+function pgSearch() {
+    if (!pgConnected) return;
+    const reg = document.getElementById('pgReg').value;
+    const found = pgDB.filter(s => s.reg === reg);
+    pgRender(found);
+}
+
+function pgDelete() {
+    if (!pgConnected) return;
+    const reg = document.getElementById('pgReg').value;
+    const initialLen = pgDB.length;
+    pgDB = pgDB.filter(s => s.reg !== reg);
+    if(pgDB.length < initialLen) pgRender(pgDB);
+}
+
+function pgUpdate() {
+    if (!pgConnected) return;
+    const reg = document.getElementById('pgReg').value;
+    const name = document.getElementById('pgName').value;
+    const idx = pgDB.findIndex(s => s.reg === reg);
+    if (idx !== -1 && name) {
+        pgDB[idx].name = name;
+        pgRender(pgDB);
+    }
+}

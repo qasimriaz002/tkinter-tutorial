@@ -1,0 +1,191 @@
+<!-- Slide 36: Postgres Database & GUI -->
+<section class="slide" id="slide-36">
+    <div class="split-layout">
+        <div class="left-col">
+            <h2>Postgres Database &amp; GUI</h2>
+
+            <h3>1. database.ini</h3>
+            <p>Instead of hardcoding passwords in your script, we use a configuration file. This is a standard security practice.</p>
+            <div class="code-window" style="margin: 5px 0 15px 0; font-size: 0.75rem;">
+                <div class="code-content" style="margin-top:0;">[postgresql]
+host=localhost
+database=university
+user=postgres
+password=secret123</div>
+            </div>
+
+            <h3>2. Config Parsing &amp; psycopg2</h3>
+            <ul>
+                <li><strong><code>configparser</code></strong>: A built-in Python module used to read <code>.ini</code> files.</li>
+                <li><strong><code>psycopg2</code></strong>: The most popular PostgreSQL adapter for Python. It translates Python objects into SQL queries.</li>
+                <li><strong>Connection Pipeline:</strong> Python reads <code>database.ini</code> -> Parses credentials -> Passes them to <code>psycopg2.connect()</code> -> Establishes TCP connection to Postgres Server.</li>
+            </ul>
+
+            <h3>3. CRUD Operations</h3>
+            <p>Just like SQLite, we use <code>cursor.execute()</code>. However, Postgres uses a slightly stricter SQL dialect for specific data types (e.g., <code>SERIAL</code> for auto-increment) and handles transactions differently (requires explicit <code>commit</code> for DDL usually).</p>
+
+            <!-- Flow Diagram -->
+            <div style="margin-top: 20px; background: white; padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+                <h4 style="margin-bottom: 10px; text-align:center;">Database Connection Pipeline</h4>
+                <svg width="100%" height="120" viewBox="0 0 300 120">
+                    <!-- File -->
+                    <rect x="10" y="40" width="70" height="40" fill="#eee" stroke="#333" stroke-width="2"/>
+                    <text x="45" y="65" text-anchor="middle" font-size="10" font-family="sans-serif">database.ini</text>
+
+                    <!-- Python -->
+                    <rect x="120" y="20" width="80" height="80" fill="#e1f0ff" stroke="#0071e3" stroke-width="2"/>
+                    <text x="160" y="55" text-anchor="middle" font-size="11" font-weight="bold" font-family="sans-serif">Python</text>
+                    <text x="160" y="70" text-anchor="middle" font-size="9" font-family="monospace">psycopg2</text>
+
+                    <!-- Postgres -->
+                    <ellipse cx="270" cy="60" rx="25" ry="60" fill="#e6e6fa" stroke="#9932CC" stroke-width="2"/>
+                    <text x="270" y="55" text-anchor="middle" font-size="10" font-weight="bold" font-family="sans-serif">Postgres</text>
+                    <text x="270" y="70" text-anchor="middle" font-size="9" font-family="sans-serif">Server</text>
+
+                    <!-- Arrows -->
+                    <path d="M 80 60 L 110 60" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                    <text x="95" y="50" font-size="8" text-anchor="middle">Read</text>
+
+                    <path d="M 200 60 L 235 60" stroke="#0071e3" stroke-width="2" marker-end="url(#arrow2)"/>
+                    <text x="218" y="50" font-size="8" text-anchor="middle">SQL</text>
+
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#333" />
+                        </marker>
+                        <marker id="arrow2" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#0071e3" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <div class="right-col">
+            <!-- Interactive Demo -->
+            <div class="demo-area" style="flex-direction:column; align-items: stretch; padding: 10px;">
+                <div id="pgStatus" style="text-align:center; font-size:0.8rem; color:#666; margin-bottom:5px;">Status: Not Connected</div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px; margin-bottom:10px;">
+                    <input type="text" id="pgReg" class="tk-entry" placeholder="Reg # (PK)" style="border:2px solid #9932CC;">
+                    <input type="text" id="pgName" class="tk-entry" placeholder="Student Name">
+                </div>
+
+                <div style="display:flex; gap:5px; flex-wrap:wrap; margin-bottom:10px; justify-content:center;">
+                    <button class="tk-btn" onclick="pgConnect()" style="background:#333; color:white;">Connect</button>
+                    <button class="tk-btn" onclick="pgInsert()" style="background:#4CAF50; color:white;">Insert</button>
+                    <button class="tk-btn" onclick="pgRefresh()" style="background:#2196F3; color:white;">View All</button>
+                    <button class="tk-btn" onclick="pgSearch()" style="background:#FF9800; color:white;">Search</button>
+                    <button class="tk-btn" onclick="pgDelete()" style="background:#f44336; color:white;">Delete</button>
+                    <button class="tk-btn" onclick="pgUpdate()" style="background:#9C27B0; color:white;">Update</button>
+                </div>
+
+                <!-- Simulated Treeview -->
+                <div style="width:100%; height:120px; border:1px solid #999; background:white; overflow:auto;">
+                    <table id="pgTable" style="width:100%; border-collapse:collapse; font-size:0.75rem; font-family:monospace;">
+                        <thead style="background:#e6e6fa; position:sticky; top:0;">
+                            <tr>
+                                <th style="border:1px solid #ccc; padding:4px;">Reg #</th>
+                                <th style="border:1px solid #ccc; padding:4px;">Name</th>
+                                <th style="border:1px solid #ccc; padding:4px;">Degree</th>
+                                <th style="border:1px solid #ccc; padding:4px;">Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pgTableBody">
+                            <tr><td colspan="4" style="text-align:center; padding:10px; color:#888;">Connect to Postgres to view data.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Python Code Snippet -->
+            <div class="code-window">
+                <div class="code-content"><span class="kw">import</span> psycopg2
+<span class="kw">from</span> configparser <span class="kw">import</span> ConfigParser
+<span class="kw">import</span> tkinter <span class="kw">as</span> tk
+<span class="kw">from</span> tkinter <span class="kw">import</span> ttk
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime
+
+<span class="com"># --- 1. CONFIG PARSING ---</span>
+<span class="kw">def</span> <span class="func">config</span>(filename=<span class="str">'database.ini'</span>, section=<span class="str">'postgresql'</span>):
+    parser = ConfigParser()
+    parser.read(filename)
+    <span class="com"># Return dict with keys: host, database, user, password</span>
+    <span class="kw">return</span> {k:v <span class="kw">for</span> k,v <span class="kw">in</span> parser[section].items()}
+
+<span class="com"># --- 2. DB CONNECTION ---</span>
+<span class="kw">def</span> <span class="func">get_connection</span>():
+    params = config()
+    <span class="kw">return</span> psycopg2.connect(**params)
+
+<span class="com"># --- 3. CRUD FUNCTIONS ---</span>
+conn = get_connection()
+c = conn.cursor()
+
+<span class="kw">def</span> <span class="func">create_table</span>():
+    c.execute(<span class="str">'''CREATE TABLE IF NOT EXISTS student (
+        reg INTEGER PRIMARY KEY,
+        name TEXT, dob TEXT,
+        degree TEXT, city TEXT,
+        phone TEXT, timestamp TEXT
+    )'''</span>)
+    conn.commit()
+
+<span class="kw">def</span> <span class="func">add_student</span>():
+    r = reg_entry.get()
+    n = name_entry.get()
+    ts = datetime.now().strftime(<span class="str">"%Y-%m-%d %H:%M:%S"</span>)
+    <span class="kw">if</span> r:
+        c.execute(<span class="str">"INSERT INTO student VALUES (?,?,?,?,?,?)"</span>,
+                  (r, n, <span class="str">"2000-01-01"</span>, <span class="str">"CS"</span>, <span class="str">"NY"</span>, <span class="str">"555-0199"</span>, ts))
+        conn.commit()
+        <span class="func">view_students</span>()
+
+<span class="kw">def</span> <span class="func">view_students</span>():
+    <span class="kw">for</span> item <span class="kw">in</span> tree.get_children(): tree.delete(item)
+    c.execute(<span class="str">"SELECT * FROM student"</span>)
+    <span class="kw">for</span> row <span class="kw">in</span> c.fetchall(): tree.insert(<span class="str">""</span>, tk.END, values=row)
+
+<span class="kw">def</span> <span class="func">delete_student</span>():
+    c.execute(<span class="str">"DELETE FROM student WHERE reg=%s"</span>, (reg_entry.get(),))
+    conn.commit()
+    <span class="func">view_students</span>()
+
+<span class="com"># --- 4. GUI SETUP (Similar to Slide 35) ---</span>
+root = tk.Tk()
+reg_entry = tk.Entry(root); reg_entry.pack(pady=2)
+name_entry = tk.Entry(root); name_entry.pack(pady=2)
+cols = (<span class="str">"reg"</span>, <span class="str">"name"</span>, <span class="str">"degree"</span>, <span class="str">"timestamp"</span>)
+tree = ttk.Treeview(root, columns=cols, show=<span class="str">"headings"</span>)
+<span class="kw">for</span> col <span class="kw">in</span> cols: tree.heading(col, text=col.upper())
+tree.pack()
+tk.Button(root, text=<span class="str">"Add"</span>, command=add_student).pack()
+root.mainloop()</div>
+            </div>
+
+            <!-- Code Explanation -->
+            <div style="margin-top: 20px;">
+                <h3 style="font-size: 1rem; margin-bottom: 10px; color: var(--text-primary);">Code Explanation:</h3>
+
+                <div style="background: var(--tkinter-blue); padding: 15px; border-radius: 8px; border-left: 4px solid var(--accent);">
+                    <h4 style="font-size: 0.9rem; margin-bottom: 5px; color: var(--accent);">1. Configuration &amp; Connection</h4>
+                    <ul style="margin-bottom: 10px; margin-top: 5px; padding-left: 20px;">
+                        <li><strong><code>ConfigParser()</code></strong>: Reads the <code>database.ini</code> file. This decouples the code from the credentials, allowing you to deploy the same script to different servers without changing the Python code.</li>
+                        <li><strong><code>psycopg2.connect(**params)</code></strong>: Uses Python's "dictionary unpacking" to pass the parsed credentials (host, user, password) directly to the connection function.</li>
+                    </ul>
+
+                    <h4 style="font-size: 0.9rem; margin-bottom: 5px; color: var(--accent);">2. Postgres SQL Syntax</h4>
+                    <ul style="margin-bottom: 10px; margin-top: 5px; padding-left: 20px;">
+                        <li><strong>Placeholders:</strong> SQLite uses <code>?</code>. <strong>Postgres requires <code>%s</code></strong> as the placeholder for parameter substitution.</li>
+                        <li><strong>Transactions:</strong> Postgres is transactional by default. If you don't execute <code>conn.commit()</code>, your <code>INSERT</code> or <code>DELETE</code> commands will be rolled back (undone) when the script ends.</li>
+                    </ul>
+
+                    <h4 style="font-size: 0.9rem; margin-bottom: 5px; color: var(--accent);">3. GUI Integration</h4>
+                    <ul style="margin-top: 5px; padding-left: 20px;">
+                        <li>The GUI logic is identical to the SQLite version. This demonstrates a key principle: <strong>Separation of Concerns</strong>. The GUI only talks to the Python functions; it doesn't care if the data comes from a local file or a remote server.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
